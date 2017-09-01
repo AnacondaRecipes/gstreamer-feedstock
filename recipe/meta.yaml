@@ -202,6 +202,7 @@ about:
   license_file: COPYING
   doc_url: https://gstreamer.freedesktop.org/documentation/
   dev_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/
+  doc_source_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/docs
 
 extra:
   recipe-maintainers:
