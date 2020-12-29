@@ -8,7 +8,7 @@ pushd plugins_base
 
 # warning: libgstbase-1.0.so.0, needed by ./.libs/libgstnet-1.0.so, not found (try using -rpath or -rpath-link)
 if [[ ${target_platform} =~ .*linux.* ]]; then
-  export LDFLAGS="${LDFLAGS} -Wl,-rpath-link,${PREFIX}/lib"
+  export LDFLAGS="${LDFLAGS} -L${PREFIX}/lib -Wl,-rpath-link,${PREFIX}/lib"
 fi
 
 ./configure --prefix="$PREFIX"  \

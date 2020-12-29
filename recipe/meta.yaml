@@ -15,7 +15,7 @@ source:
 
 build:
   skip: true  # [win]
-  number: 1
+  number: 2
 
 outputs:
   - name: gstreamer
@@ -34,15 +34,19 @@ outputs:
         - bison
         - flex
         - m4
+        - autoconf
+        - automake
         - make
         - perl
       host:
         - gobject-introspection
         - gettext                            # [osx]
-        - pcre                               # [linux]
-        - libffi                             # [linux]
+        # - pcre                               # [linux]
+        # - libffi                             # [linux]
         - glib
-        - xz
+        # - xz
+      run:
+        - gettext                            # [osx]
     test:
       commands:
         - gst-inspect-1.0 --version
@@ -77,8 +81,15 @@ outputs:
         - {{ cdt('libxdamage-devel') }}      # [linux]
         - {{ cdt('libxfixes-devel') }}       # [linux]
         - {{ cdt('libxxf86vm-devel') }}      # [linux]
+        # These dependencies are only for cos7 platforms
+        - {{ cdt('libglvnd-glx') }}          # [linux & (ppc64le | aarch64)]
+        - {{ cdt('libglvnd') }}              # [linux & (ppc64le | aarch64)]
+        - {{ cdt('libxshmfence-devel') }}    # [linux & (ppc64le | aarch64)]
+        - {{ cdt('mesa-khr-devel') }}        # [linux & (ppc64le | aarch64)]
         - pkg-config
         - m4
+        - autoconf
+        - automake
         - make
         - perl
       host:
@@ -88,9 +99,10 @@ outputs:
         - gettext                            # [osx]
         - libxcb                             # [linux]
         - pthread-stubs                      # [linux]
-        - xz
+        # - xz
       run:
         - {{ pin_compatible('gstreamer') }}
+        - gettext                            # [osx]
 
     test:
       commands:

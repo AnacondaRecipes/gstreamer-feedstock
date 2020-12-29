@@ -6,6 +6,14 @@
 # https://github.com/conda-forge/bison-feedstock/issues/7
 export M4="${BUILD_PREFIX}/bin/m4"
 
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig:$BUILD_PREFIX/lib/pkgconfig
+
+if [ -n "$OSX_ARCH" ] ; then
+    export LDFLAGS="${LDFLAGS} -L${PREFIX}/lib -Wl,-rpath,${PREFIX}/lib"
+else
+    export LDFLAGS="${LDFLAGS} -L${PREFIX}/lib -Wl,-rpath-link,${PREFIX}/lib"
+fi
+
 # --disable-examples because:
 # https://bugzilla.gnome.org/show_bug.cgi?id=770623#c16
 # http://lists.gnu.org/archive/html/libtool/2016-05/msg00022.html
