@@ -1,5 +1,5 @@
-{% set version = "1.14.1" %}
-{% set sha256 = "28d82b0d261544a9bf85b429399929e4986eb00efcf1ce16cc71d269a4c3186c" %}
+{% set version = "1.19.1" %}
+{% set sha256 = "0bdf5395a6982ae8a20c568603892877437ce3e2d206bf9ab54de29ca417dcc1" %}
 {% set plugin_base_sha256 = "1026c7c3082d825d9b5d034c1a6dd8a4ebab60eb3738b0a0afde4ad2dc0b0db5" %}
 
 package:
