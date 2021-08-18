@@ -79,6 +79,7 @@ outputs:
         - {{ cdt('libxfixes-devel') }}       # [linux]
         - {{ cdt('libxxf86vm-devel') }}      # [linux]
         - {{ cdt('mesa-dri-drivers') }}      # [linux]
+        - {{ cdt('alsa-lib-devel') }}        # [linux]
         # These dependencies are only for cos7 platforms
         - {{ cdt('libglvnd-glx') }}          # [linux & (ppc64le | aarch64)]
         - {{ cdt('libglvnd') }}              # [linux & (ppc64le | aarch64)]
@@ -98,7 +99,6 @@ outputs:
         - gettext
         - libxcb                             # [linux]
         - libpng                             # [unix]
-        - alsa-lib                           # [linux]
         - libopus                            # [unix]
         - libvorbis
       run:
