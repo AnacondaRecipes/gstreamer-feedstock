@@ -145,6 +145,7 @@ outputs:
     script: install_good_plugins.sh  # [unix]
     script: install_good_plugins.bat  # [win]
     build:
+      skip: true
       activate_in_script: true
       run_exports:
         - {{ pin_subpackage('gst-plugins-good', max_pin='x.x') }}
