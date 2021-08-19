@@ -16,6 +16,7 @@ source:
     folder: plugins_good
 
 build:
+  skip: true  # [win]
   number: 2
 
 outputs:
@@ -24,6 +25,8 @@ outputs:
     script: install_gstreamer.bat  # [win]
     build:
       activate_in_script: true
+      ignore_run_exports:   # [linux]
+        - gettext           # [linux]
       run_exports:
         # remove symbols at .90 patch releases just before minor versions?
         #    https://abi-laboratory.pro/tracker/timeline/gstreamer/
@@ -59,6 +62,12 @@ outputs:
     script: install_base_plugins.bat  # [win]
     build:
       activate_in_script: true
+      missing_dso_whitelist:
+        - $RPATH/libc.so.6
+        - $RPATH/libm.so.6
+        - $RPATH/libpthread.so.0
+      ignore_run_exports:   # [linux]
+        - gettext           # [linux]
       run_exports:
         # remove symbols at .90 patch releases just before minor versions?
         #    https://abi-laboratory.pro/tracker/timeline/gstreamer/
@@ -101,6 +110,7 @@ outputs:
         - libpng                             # [unix]
         - libopus                            # [unix]
         - libvorbis
+        - libogg
       run:
         - {{ pin_compatible('gstreamer') }}
         - libpng                             # [unix]
