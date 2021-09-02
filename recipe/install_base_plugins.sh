@@ -2,6 +2,8 @@
 
 pushd plugins_base
 
+cp -r ${BUILD_PREFIX}/share/libtool/build-aux/config.* .
+
 # The datarootdir option places the docs into a temp folder that won't
 # be included in the package (it is about 12MB).
 # You need to enable opengl to get gstallocators
