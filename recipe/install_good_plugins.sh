@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pushd plugins_base
+pushd plugins_good
 
 mkdir build
 pushd build
@@ -8,22 +8,18 @@ pushd build
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig:$BUILD_PREFIX/lib/pkgconfig
 
 meson_options=(
-      -Dintrospection=enabled
-      -Dgl=enabled
       -Dexamples=disabled
       -Dtests=disabled
 )
 
-if [ -n "$OSX_ARCH" ] ; then
-	# disable X11 plugins on macOS
-	meson_options+=(-Dx11=disabled)
-	meson_options+=(-Dxvideo=disabled)
-	meson_options+=(-Dxshm=disabled)
+if [ $(uname) = "Linux" ] ; then
+	# v4l2 contains clock_gettime, resulting in linker error
+	meson_options+=(-Dv4l2=disabled)
 fi
 
 meson --prefix=${PREFIX} \
-      --libdir=$PREFIX/lib \
       --buildtype=release \
+      --libdir=$PREFIX/lib \
       --wrap-mode=nofallback \
       "${meson_options[@]}" \
       ..
