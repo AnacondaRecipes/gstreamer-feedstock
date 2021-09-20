@@ -39,7 +39,7 @@ outputs:
         - ninja
         - gobject-introspection
       host:
-        - gettext
+        - gettext                           # [not win]
         - glib
     test:
       commands:
@@ -95,10 +95,10 @@ outputs:
         - {{ pin_subpackage('gstreamer') }}
         - glib
         - zlib
-        - gettext
+        - gettext                            # [not win]	
         - libxcb                             # [linux]
         - libpng                             # [unix]
-        - alsa-lib                           # [linux]
+        #- alsa-lib                           # [linux]
         - libopus                            # [unix]
         - libvorbis
       run:
