@@ -62,9 +62,10 @@ outputs:
     script: install_base_plugins.sh  # [unix]
     script: install_base_plugins.bat  # [win]
     build:
-      ignore_run_exports:            # [not win]
+      ignore_run_exports:
         - gettext                    # [not win]
-        #- libpng                     # [unix]
+        - libpng                     # [linux & ppc64le]
+        - libxcb                     # [linux & ppc64le]
       activate_in_script: true
       run_exports:
         # remove symbols at .90 patch releases just before minor versions?
@@ -145,6 +146,8 @@ outputs:
     script: install_good_plugins.sh  # [unix]
     script: install_good_plugins.bat  # [win]
     build:
+      ignore_run_exports:
+        - libxcb                             # [linux]
       activate_in_script: true
       run_exports:
         - {{ pin_subpackage('gst-plugins-good', max_pin='x.x') }}
@@ -186,9 +189,10 @@ outputs:
         - {{ pin_compatible('gstreamer') }}
         - {{ pin_subpackage('gst-plugins-base') }}
         - gettext                            # [osx]
-        - zlib                               # [osx]
-        - libpng                             # [osx]
-        - mpg123                             # [osx]
+        - zlib                               # [unix]
+        - libpng                             # [unix]
+        - mpg123                             # [unix]
+        - libxcb                             # [linux]
     test:
       commands:
         - test -f $PREFIX/lib/gstreamer-1.0/libgstalpha${SHLIB_EXT}  # [unix]
