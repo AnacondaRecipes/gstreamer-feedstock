@@ -7,12 +7,21 @@ pushd build
 
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig:$BUILD_PREFIX/lib/pkgconfig
 
+if [[ “${target_platform}“ == *ppc64le* ]]; then
+meson_options=(
+      -Dintrospection=enabled
+      -Dgl=disabled
+      -Dexamples=disabled
+      -Dtests=disabled
+)
+else
 meson_options=(
       -Dintrospection=enabled
       -Dgl=enabled
       -Dexamples=disabled
       -Dtests=disabled
 )
+fi
 
 if [ -n "$OSX_ARCH" ] ; then
 	# disable X11 plugins on macOS

@@ -23,6 +23,8 @@ outputs:
     script: install_gstreamer.sh  # [unix]
     script: install_gstreamer.bat  # [win]
     build:
+      ignore_run_exports:        # [unix]
+        - gettext                # [unix]
       activate_in_script: true
       run_exports:
         # remove symbols at .90 patch releases just before minor versions?
@@ -41,6 +43,8 @@ outputs:
       host:
         - gettext                           # [not win]
         - glib
+      run:
+        - gettext                           # [not win]
     test:
       commands:
         - gst-inspect-1.0 --version
@@ -58,6 +62,9 @@ outputs:
     script: install_base_plugins.sh  # [unix]
     script: install_base_plugins.bat  # [win]
     build:
+      ignore_run_exports:            # [not win]
+        - gettext                    # [not win]
+        #- libpng                     # [unix]
       activate_in_script: true
       run_exports:
         # remove symbols at .90 patch releases just before minor versions?
@@ -104,6 +111,9 @@ outputs:
       run:
         - {{ pin_compatible('gstreamer') }}
         - libpng                             # [unix]
+        - libogg                             # [unix]
+        - gettext                            # [unix]
+        - zlib
 
     test:
       commands:
@@ -175,6 +185,10 @@ outputs:
       run:
         - {{ pin_compatible('gstreamer') }}
         - {{ pin_subpackage('gst-plugins-base') }}
+        - gettext                            # [osx]
+        - zlib                               # [osx]
+        - libpng                             # [osx]
+        - mpg123                             # [osx]
     test:
       commands:
         - test -f $PREFIX/lib/gstreamer-1.0/libgstalpha${SHLIB_EXT}  # [unix]
