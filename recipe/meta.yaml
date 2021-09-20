@@ -192,7 +192,6 @@ outputs:
         - zlib                               # [unix]
         - libpng                             # [unix]
         - mpg123                             # [unix]
-        - libxcb                             # [linux]
     test:
       commands:
         - test -f $PREFIX/lib/gstreamer-1.0/libgstalpha${SHLIB_EXT}  # [unix]
