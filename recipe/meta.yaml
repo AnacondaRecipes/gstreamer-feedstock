@@ -89,7 +89,7 @@ outputs:
         - {{ cdt('libxrender-devel') }}      # [linux]
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
         - {{ cdt('mesa-libgl-devel') }}      # [linux and not s390x]
-        - {{ cdt('libdrm-devel') }}          # [linux]
+        - {{ cdt('libdrm-devel') }}          # [linux and not s390x]
         - {{ cdt('libxdamage-devel') }}      # [linux]
         - {{ cdt('libxfixes-devel') }}       # [linux]
         - {{ cdt('libxxf86vm-devel') }}      # [linux]
@@ -172,7 +172,7 @@ outputs:
         - {{ cdt('libxrender-devel') }}      # [linux]
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
         - {{ cdt('mesa-libgl-devel') }}      # [linux and not s390x]
-        - {{ cdt('libdrm-devel') }}          # [linux]
+        - {{ cdt('libdrm-devel') }}          # [linux and not s390x]
         - {{ cdt('libxdamage-devel') }}      # [linux]
         - {{ cdt('libxfixes-devel') }}       # [linux]
         - {{ cdt('libxxf86vm-devel') }}      # [linux]
@@ -200,7 +200,7 @@ outputs:
         - {{ pin_compatible('gstreamer') }}
         - {{ pin_subpackage('gst-plugins-base') }}
         - gettext                            # [osx]
-        - zlib                               # [unix]
+        - zlib
         - libpng                             # [unix]
         - mpg123                             # [unix]
     test:
