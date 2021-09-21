@@ -30,7 +30,10 @@ outputs:
         # remove symbols at .90 patch releases just before minor versions?
         #    https://abi-laboratory.pro/tracker/timeline/gstreamer/
         - {{ pin_subpackage('gstreamer', max_pin='x.x') }}
-
+      missing_dso_whitelist:  # [linux]
+        - $RPATH/libc.so.6  # [linux]
+        - $RPATH/libm.so.6  # [linux]
+        - $RPATH/libpthread.so.0  # [linux]
     requirements:
       build:
         - {{ compiler('c') }}
@@ -66,12 +69,16 @@ outputs:
         - gettext                    # [not win]
         - libpng                     # [linux & ppc64le]
         - libxcb                     # [linux & ppc64le]
+        - libvorbis
       activate_in_script: true
       run_exports:
         # remove symbols at .90 patch releases just before minor versions?
         #    https://abi-laboratory.pro/tracker/timeline/gstreamer/
         - {{ pin_subpackage('gst-plugins-base', max_pin='x.x') }}
-
+      missing_dso_whitelist:  # [linux]
+        - $RPATH/libc.so.6  # [linux]
+        - $RPATH/libm.so.6  # [linux]
+        - $RPATH/libpthread.so.0  # [linux]
     requirements:
       build:
         - {{ compiler('c') }}
@@ -112,10 +119,10 @@ outputs:
       run:
         - {{ pin_compatible('gstreamer') }}
         - libpng                             # [unix]
-        - libogg                             # [unix]
+        - libogg
         - gettext                            # [unix]
         - zlib
-
+        - libvorbis
     test:
       commands:
         - test -f $PREFIX/lib/libgstallocators-1.0${SHLIB_EXT}  # [unix]
@@ -151,6 +158,10 @@ outputs:
       activate_in_script: true
       run_exports:
         - {{ pin_subpackage('gst-plugins-good', max_pin='x.x') }}
+      missing_dso_whitelist:  # [linux]
+        - $RPATH/libc.so.6  # [linux]
+        - $RPATH/libm.so.6  # [linux]
+        - $RPATH/libpthread.so.0  # [linux]
     requirements:
       build:
         - {{ compiler('c') }}
