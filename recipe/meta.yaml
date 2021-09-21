@@ -70,6 +70,7 @@ outputs:
         - libpng                     # [linux & ppc64le]
         - libxcb                     # [linux & ppc64le]
         - libvorbis
+        - libopus                    # [unix]
       activate_in_script: true
       run_exports:
         # remove symbols at .90 patch releases just before minor versions?
