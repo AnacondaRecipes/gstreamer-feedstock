@@ -7,19 +7,23 @@ pushd build
 
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig:$BUILD_PREFIX/lib/pkgconfig
 
-if [[ “${target_platform}“ == *ppc64le* ]]; then
 meson_options=(
       -Dintrospection=enabled
-      -Dgl=disabled
       -Dexamples=disabled
       -Dtests=disabled
 )
+
+if [[ “${target_platform}“ == *ppc64le* ]]; then
+meson_options+=(
+      -Dgl=disabled
+)
+elif [[ “${target_platform}“ == *s390x* ]]; then
+meson_options+=(
+      -Dgl=disabled
+)
 else
-meson_options=(
-      -Dintrospection=enabled
+meson_options+=(
       -Dgl=enabled
-      -Dexamples=disabled
-      -Dtests=disabled
 )
 fi
 
