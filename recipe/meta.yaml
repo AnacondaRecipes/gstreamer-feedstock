@@ -97,7 +97,7 @@ outputs:
         # These dependencies are only for cos7 platforms
         - {{ cdt('libglvnd-glx') }}          # [linux & (ppc64le | aarch64)]
         - {{ cdt('libglvnd') }}              # [linux & (ppc64le | aarch64)]
-        - {{ cdt('libxshmfence-devel') }}    # [linux & (ppc64le | aarch64)]
+        - {{ cdt('libxshmfence-devel') }}    # [linux and ppc64le]
         - {{ cdt('mesa-khr-devel') }}        # [linux & (ppc64le | aarch64)]
         # expat here is _only_ required for mesa-dri-drivers
         - {{ cdt('expat') }}                 # [linux]
