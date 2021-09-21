@@ -1,6 +1,5 @@
-{% set version = "1.14.1" %}
-{% set sha256 = "28d82b0d261544a9bf85b429399929e4986eb00efcf1ce16cc71d269a4c3186c" %}
-{% set plugin_base_sha256 = "1026c7c3082d825d9b5d034c1a6dd8a4ebab60eb3738b0a0afde4ad2dc0b0db5" %}
+{% set version = "1.18.5" %}
+{% set posix = 'm2-' if win else '' %}
 
 package:
   name: gstreamer_and_plugins
@@ -8,64 +7,79 @@ package:
 
 source:
   - url: https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-{{ version }}.tar.xz
-    sha256: {{ sha256 }}
+    sha256: 55862232a63459bbf56abebde3085ca9aec211b478e891dacea4d6df8cafe80a
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-{{ version }}.tar.xz
-    sha256: {{ plugin_base_sha256 }}
+    sha256: 960b7af4585700db0fdd5b843554e11e2564fed9e061f591fae88a7be6446fa3
     folder: plugins_base
+  - url: https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-{{ version }}.tar.xz
+    sha256: 3aaeeea7765fbf8801acce4a503a9b05f73f04e8a35352e9d00232cfd555796b
+    folder: plugins_good
 
 build:
-  skip: true  # [win]
   number: 0
 
 outputs:
   - name: gstreamer
-    script: install_gstreamer.sh
+    script: install_gstreamer.sh  # [unix]
+    script: install_gstreamer.bat  # [win]
     build:
-      activate_in_script: True
+      ignore_run_exports:        # [unix]
+        - gettext                # [unix]
+      activate_in_script: true
       run_exports:
         # remove symbols at .90 patch releases just before minor versions?
         #    https://abi-laboratory.pro/tracker/timeline/gstreamer/
         - {{ pin_subpackage('gstreamer', max_pin='x.x') }}
-
+      missing_dso_whitelist:  # [linux]
+        - $RPATH/libc.so.6  # [linux]
+        - $RPATH/libm.so.6  # [linux]
+        - $RPATH/libpthread.so.0  # [linux]
     requirements:
       build:
         - {{ compiler('c') }}
         - pkg-config
-        - bison
-        - flex
-        - m4
-        - autoconf
-        - automake
-        - make
-        - perl
-        - libtool
-      host:
+        - {{ posix }}bison
+        - {{ posix }}flex
+        - meson
+        - ninja
         - gobject-introspection
-        - gettext                            # [osx]
-        - pcre                               # [linux]
-        - libffi                             # [linux]
+      host:
+        - gettext                           # [not win]
         - glib
-        - xz
+      run:
+        - gettext                           # [not win]
     test:
       commands:
         - gst-inspect-1.0 --version
         - gst-launch-1.0  --version
         - gst-stats-1.0 --version
         - gst-typefind-1.0 --version
+        - test -f $PREFIX/lib/girepository-1.0/Gst-1.0.typelib  # [unix]
+        - if not exist %LIBRARY_LIB%\\girepository-1.0\\Gst-1.0.typelib exit 1  # [win]
     about:
-      summary: "Library for constructing graphs of media-handling components"
+      summary: Library for constructing graphs of media-handling components
       description:
       doc_source_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/docs
 
   - name: gst-plugins-base
-    script: install_base_plugins.sh
+    script: install_base_plugins.sh  # [unix]
+    script: install_base_plugins.bat  # [win]
     build:
-      activate_in_script: True
+      ignore_run_exports:
+        - gettext                    # [not win]
+        - libpng                     # [linux & ppc64le]
+        - libxcb                     # [linux & ppc64le]
+        - libvorbis
+        - libopus                    # [unix]
+      activate_in_script: true
       run_exports:
         # remove symbols at .90 patch releases just before minor versions?
         #    https://abi-laboratory.pro/tracker/timeline/gstreamer/
         - {{ pin_subpackage('gst-plugins-base', max_pin='x.x') }}
-
+      missing_dso_whitelist:  # [linux]
+        - $RPATH/libc.so.6  # [linux]
+        - $RPATH/libm.so.6  # [linux]
+        - $RPATH/libpthread.so.0  # [linux]
     requirements:
       build:
         - {{ compiler('c') }}
@@ -75,57 +89,146 @@ outputs:
         - {{ cdt('libx11-devel') }}          # [linux]
         - {{ cdt('libxrender-devel') }}      # [linux]
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-        - {{ cdt('mesa-libgl-devel') }}      # [linux]
-        - {{ cdt('libdrm-devel') }}          # [linux]
+        - {{ cdt('mesa-libgl-devel') }}      # [linux and not s390x]
+        - {{ cdt('libdrm-devel') }}          # [linux and not s390x]
         - {{ cdt('libxdamage-devel') }}      # [linux]
         - {{ cdt('libxfixes-devel') }}       # [linux]
         - {{ cdt('libxxf86vm-devel') }}      # [linux]
+        - {{ cdt('mesa-dri-drivers') }}      # [linux]
+        # These dependencies are only for cos7 platforms
+        - {{ cdt('libglvnd-glx') }}          # [linux & (ppc64le | aarch64)]
+        - {{ cdt('libglvnd') }}              # [linux & (ppc64le | aarch64)]
+        - {{ cdt('libxshmfence-devel') }}    # [linux and ppc64le]
+        - {{ cdt('mesa-khr-devel') }}        # [linux & (ppc64le | aarch64)]
+        # expat here is _only_ required for mesa-dri-drivers
+        - {{ cdt('expat') }}                 # [linux and not s390x]
+        - {{ cdt('libselinux-devel') }}      # [linux]
         - pkg-config
-        - m4
-        - autoconf
-        - automake
-        - make
-        - perl
-        - libtool # [not win]
+        - meson
+        - ninja
+        - gobject-introspection
       host:
         - {{ pin_subpackage('gstreamer') }}
         - glib
         - zlib
-        - gettext                            # [osx]
+        - gettext                            # [not win]	
         - libxcb                             # [linux]
-        - pthread-stubs                      # [linux]
-        - xz
+        - libpng                             # [unix]
+        #- alsa-lib                           # [linux]
+        - libopus                            # [unix]
+        - libvorbis
       run:
         - {{ pin_compatible('gstreamer') }}
-
+        - libpng                             # [unix]
+        - libogg
+        - gettext                            # [unix]
+        - zlib
+        - libvorbis
     test:
       commands:
-        {% set SOEXT = 'dylib' if osx else 'so' %}
-        - test -f $PREFIX/lib/libgstallocators-1.0.{{ SOEXT }}
-        - test -f $PREFIX/lib/libgstapp-1.0.{{ SOEXT }}
-        - test -f $PREFIX/lib/libgstaudio-1.0.{{ SOEXT }}
-        - test -f $PREFIX/lib/libgstfft-1.0.{{ SOEXT }}
-        - test -f $PREFIX/lib/libgstpbutils-1.0.{{ SOEXT }}
-        - test -f $PREFIX/lib/libgstriff-1.0.{{ SOEXT }}
-        - test -f $PREFIX/lib/libgstrtp-1.0.{{ SOEXT }}
-        - test -f $PREFIX/lib/libgstrtsp-1.0.{{ SOEXT }}
-        - test -f $PREFIX/lib/libgstsdp-1.0.{{ SOEXT }}
-        - test -f $PREFIX/lib/libgsttag-1.0.{{ SOEXT }}
-        - test -f $PREFIX/lib/libgstvideo-1.0.{{ SOEXT }}
+        - test -f $PREFIX/lib/libgstallocators-1.0${SHLIB_EXT}  # [unix]
+        - test -f $PREFIX/lib/libgstapp-1.0${SHLIB_EXT}  # [unix]
+        - test -f $PREFIX/lib/libgstaudio-1.0${SHLIB_EXT}  # [unix]
+        - test -f $PREFIX/lib/libgstfft-1.0${SHLIB_EXT}  # [unix]
+        - test -f $PREFIX/lib/libgstpbutils-1.0${SHLIB_EXT}  # [unix]
+        - test -f $PREFIX/lib/libgstriff-1.0${SHLIB_EXT}  # [unix]
+        - test -f $PREFIX/lib/libgstrtp-1.0${SHLIB_EXT}  # [unix]
+        - test -f $PREFIX/lib/libgstrtsp-1.0${SHLIB_EXT}  # [unix]
+        - test -f $PREFIX/lib/libgstsdp-1.0${SHLIB_EXT}  # [unix]
+        - test -f $PREFIX/lib/libgsttag-1.0${SHLIB_EXT}  # [unix]
+        - test -f $PREFIX/lib/libgstvideo-1.0${SHLIB_EXT}  # [unix]
+        - test -f $PREFIX/lib/girepository-1.0/GstVideo-1.0.typelib  # [unix]
+        - if not exist %LIBRARY_BIN%\\gstallocators-1.0-0.dll exit 1  # [win]
+        - if not exist %LIBRARY_LIB%\\girepository-1.0\\GstVideo-1.0.typelib exit 1  # [win]
+        - gst-inspect-1.0 --plugin volume
 
     about:
-        summary: "GStreamer Base Plug-ins"
-        description: |
-          GStreamer Base Plug-ins is a well-groomed and well-maintained collection of
-          GStreamer plug-ins and elements, spanning the range of possible types of
-          elements one would want to write for GStreamer.
-        doc_source_url: https://github.com/GStreamer/gst-plugins-base/tree/master/docs
+      summary: GStreamer Base Plug-ins
+      description: |
+        GStreamer Base Plug-ins is a well-groomed and well-maintained collection of
+        GStreamer plug-ins and elements, spanning the range of possible types of
+        elements one would want to write for GStreamer.
+      doc_source_url: https://github.com/GStreamer/gst-plugins-base/tree/master/docs
 
-
+  - name: gst-plugins-good
+    script: install_good_plugins.sh  # [unix]
+    script: install_good_plugins.bat  # [win]
+    build:
+      ignore_run_exports:
+        - libxcb                             # [linux]
+      activate_in_script: true
+      run_exports:
+        - {{ pin_subpackage('gst-plugins-good', max_pin='x.x') }}
+      missing_dso_whitelist:  # [linux]
+        - $RPATH/libc.so.6  # [linux]
+        - $RPATH/libm.so.6  # [linux]
+        - $RPATH/libpthread.so.0  # [linux]
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - {{ cdt('libxau-devel') }}          # [linux]
+        - {{ cdt('libxext-devel') }}         # [linux]
+        - {{ cdt('libx11-devel') }}          # [linux]
+        - {{ cdt('libxrender-devel') }}      # [linux]
+        - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
+        - {{ cdt('mesa-libgl-devel') }}      # [linux and not s390x]
+        - {{ cdt('libdrm-devel') }}          # [linux and not s390x]
+        - {{ cdt('libxdamage-devel') }}      # [linux]
+        - {{ cdt('libxfixes-devel') }}       # [linux]
+        - {{ cdt('libxxf86vm-devel') }}      # [linux]
+        - {{ cdt('mesa-dri-drivers') }}      # [linux]
+        # These dependencies are only for cos7 platforms
+        - {{ cdt('libglvnd-glx') }}          # [linux & (ppc64le | aarch64)]
+        - {{ cdt('libglvnd') }}              # [linux & (ppc64le | aarch64)]
+        - {{ cdt('libxshmfence-devel') }}    # [linux and ppc64le]
+        - {{ cdt('mesa-khr-devel') }}        # [linux & (ppc64le | aarch64)]
+        # expat here is _only_ required for mesa-dri-drivers
+        - {{ cdt('expat') }}                 # [linux and not s390x]
+        - {{ cdt('libselinux-devel') }}      # [linux]
+        - pkg-config
+        - meson
+        - ninja
+      host:
+        - {{ pin_subpackage('gstreamer') }}
+        - {{ pin_subpackage('gst-plugins-base') }}
+        - glib
+        - libxcb                             # [linux]
+        #- jack >=1.9.7                       # [linux64]
+        - lame                               # [linux]
+        - mpg123                             # [linux64 or osx]
+      run:
+        - {{ pin_compatible('gstreamer') }}
+        - {{ pin_subpackage('gst-plugins-base') }}
+        - gettext                            # [osx]
+        - zlib
+        - libpng                             # [unix]
+        - mpg123                             # [unix]
+    test:
+      commands:
+        - test -f $PREFIX/lib/gstreamer-1.0/libgstalpha${SHLIB_EXT}  # [unix]
+        - test -f $PREFIX/lib/gstreamer-1.0/libgstdebug${SHLIB_EXT}  # [unix]
+        - test -f $PREFIX/lib/gstreamer-1.0/libgstspectrum${SHLIB_EXT}  # [unix]
+        - if not exist %LIBRARY_LIB%\\gstreamer-1.0\\gstalpha.dll exit 1  # [win]
+        - if not exist %LIBRARY_LIB%\\gstreamer-1.0\\gstdebug.dll exit 1  # [win]
+        - if not exist %LIBRARY_LIB%\\gstreamer-1.0\\gstspectrum.dll exit 1  # [win]
+        - gst-inspect-1.0 --plugin alpha
+    about:
+      summary: GStreamer Good Plug-ins
+      description: |
+        GStreamer Good Plug-ins is A collection of plug-ins you'd
+        want to have right next to you on the battlefield.
+        Shooting sharp and making no mistakes, these plug-ins have it
+        all: good looks, good code, and good licensing.  Documented and
+        dressed up in tests.  If you're looking for a role model to
+        base your own plug-in on here it is.
+      doc_source_url: https://github.com/GStreamer/gst-plugins-good/tree/master/docs
 
 about:
-  home: http://gstreamer.freedesktop.org/
-  license: LGPL 2
+  home: https://gstreamer.freedesktop.org/
+  summary: Library for constructing graphs of media-handling components
+  license: LGPL-2.0-or-later
+  license_file: COPYING
   doc_url: https://gstreamer.freedesktop.org/documentation/
   dev_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/
 
@@ -134,3 +237,5 @@ extra:
     - ccordoba12
     - mingwandroid
     - msarahan
+    - tschoonj
+    - scopatz
