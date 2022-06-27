@@ -1,4 +1,4 @@
-{% set version = "1.18.5" %}
+{% set version = "1.20.3" %}
 {% set posix = 'm2-' if win else '' %}
 
 package:
@@ -7,12 +7,12 @@ package:
 
 source:
   - url: https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-{{ version }}.tar.xz
-    sha256: 55862232a63459bbf56abebde3085ca9aec211b478e891dacea4d6df8cafe80a
+    sha256: 607daf64bbbd5fb18af9d17e21c0d22c4d702fffe83b23cb22d1b1af2ca23a2a
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-{{ version }}.tar.xz
-    sha256: 960b7af4585700db0fdd5b843554e11e2564fed9e061f591fae88a7be6446fa3
+    sha256: 7e30b3dd81a70380ff7554f998471d6996ff76bbe6fc5447096f851e24473c9f
     folder: plugins_base
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-{{ version }}.tar.xz
-    sha256: 3aaeeea7765fbf8801acce4a503a9b05f73f04e8a35352e9d00232cfd555796b
+    sha256: f8f3c206bf5cdabc00953920b47b3575af0ef15e9f871c0b6966f6d0aa5868b7
     folder: plugins_good
 
 build:
@@ -59,7 +59,7 @@ outputs:
     about:
       summary: Library for constructing graphs of media-handling components
       description:
-      doc_source_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/docs
+      doc_source_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/subprojects/gstreamer/docs
 
   - name: gst-plugins-base
     script: install_base_plugins.sh  # [unix]
@@ -124,6 +124,7 @@ outputs:
         - gettext                            # [unix]
         - zlib
         - libvorbis
+        - libopus                            # [unix]
     test:
       commands:
         - test -f $PREFIX/lib/libgstallocators-1.0${SHLIB_EXT}  # [unix]
@@ -148,7 +149,7 @@ outputs:
         GStreamer Base Plug-ins is a well-groomed and well-maintained collection of
         GStreamer plug-ins and elements, spanning the range of possible types of
         elements one would want to write for GStreamer.
-      doc_source_url: https://github.com/GStreamer/gst-plugins-base/tree/master/docs
+      doc_source_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/subprojects/gst-plugins-base/docs
 
   - name: gst-plugins-good
     script: install_good_plugins.sh  # [unix]
@@ -163,6 +164,7 @@ outputs:
         - $RPATH/libc.so.6  # [linux]
         - $RPATH/libm.so.6  # [linux]
         - $RPATH/libpthread.so.0  # [linux]
+        - $RPATH/libdl.so.2 #[linux]
     requirements:
       build:
         - {{ compiler('c') }}
@@ -222,7 +224,7 @@ outputs:
         all: good looks, good code, and good licensing.  Documented and
         dressed up in tests.  If you're looking for a role model to
         base your own plug-in on here it is.
-      doc_source_url: https://github.com/GStreamer/gst-plugins-good/tree/master/docs
+      doc_source_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/subprojects/gst-plugins-good/docs
 
 about:
   home: https://gstreamer.freedesktop.org/
