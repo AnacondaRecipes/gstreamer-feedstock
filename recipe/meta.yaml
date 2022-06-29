@@ -43,6 +43,7 @@ outputs:
         - {{ posix }}flex
         - meson
         - ninja
+        - gobject-introspection
       host:
         - gettext                           # [not win]
         - glib
@@ -106,6 +107,7 @@ outputs:
         - pkg-config
         - meson
         - ninja
+        - gobject-introspection
       host:
         - {{ pin_subpackage('gstreamer') }}
         - glib
