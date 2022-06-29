@@ -67,8 +67,8 @@ outputs:
     build:
       ignore_run_exports:
         - gettext                    # [not win]
-        - libpng                     # [linux & ppc64le]
-        - libxcb                     # [linux & ppc64le]
+        - libpng                     # [linux & (ppc64le | s390x)]
+        - libxcb                     # [linux & (ppc64le | s390x)]
         - libvorbis
         - libopus                    # [unix]
       activate_in_script: true
