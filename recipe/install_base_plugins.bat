@@ -9,7 +9,8 @@ set "LIBRARY_PREFIX_M=%LIBRARY_PREFIX:\=/%"
 
 cd plugins_base
 
-meson setup builddir --wrap-mode=nofallback --buildtype=release --prefix=%LIBRARY_PREFIX_M% --backend=ninja -Dexamples=disabled -Dintrospection=enabled -Dtests=disabled
+:: disable introspection because of a debug warning introduced in glib 2.67.2 that breaks win64 builds; glib 2.72.2 fixes this.
+meson setup builddir --wrap-mode=nofallback --buildtype=release --prefix=%LIBRARY_PREFIX_M% --backend=ninja -Dexamples=disabled -Dintrospection=disabled -Dtests=disabled
 if errorlevel 1 exit 1
 
 ninja -v -C builddir -j %CPU_COUNT%

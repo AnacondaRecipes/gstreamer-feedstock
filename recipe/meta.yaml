@@ -25,6 +25,7 @@ outputs:
     build:
       ignore_run_exports:        # [unix]
         - gettext                # [unix]
+        - glib                   # [win]
       activate_in_script: true
       run_exports:
         # remove symbols at .90 patch releases just before minor versions?
@@ -42,7 +43,6 @@ outputs:
         - {{ posix }}flex
         - meson
         - ninja
-        - gobject-introspection
       host:
         - gettext                           # [not win]
         - glib
@@ -106,7 +106,6 @@ outputs:
         - pkg-config
         - meson
         - ninja
-        - gobject-introspection
       host:
         - {{ pin_subpackage('gstreamer') }}
         - glib
