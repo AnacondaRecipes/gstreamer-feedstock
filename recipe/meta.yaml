@@ -23,7 +23,7 @@ outputs:
     script: install_gstreamer.sh  # [unix]
     script: install_gstreamer.bat  # [win]
     build:
-      ignore_run_exports:        # [unix]
+      ignore_run_exports:
         - gettext                # [unix]
         - glib                   # [win]
       activate_in_script: true
