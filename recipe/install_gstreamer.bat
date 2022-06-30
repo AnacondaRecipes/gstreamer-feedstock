@@ -14,8 +14,7 @@ if %errorlevel%==0 (
     powershell -Command "(gc %LIBRARY_LIB%\pkgconfig\gio-2.0.pc) -replace 'C:/ci_310/glib_1642686432177/_h_env/Library/lib/z.lib', '' | Out-File -encoding ASCII %LIBRARY_LIB%\pkgconfig\gio-2.0.pc"
 )
 
-:: disable introspection because of a debug warning introduced in glib 2.67.2 that breaks win64 builds; glib 2.72.2 fixes this.
-meson setup builddir --wrap-mode=nofallback --buildtype=release --prefix=%LIBRARY_PREFIX_M% --backend=ninja -Dexamples=disabled -Dintrospection=disabled -Dtests=disabled
+meson setup builddir --wrap-mode=nofallback --buildtype=release --prefix=%LIBRARY_PREFIX_M% --backend=ninja -Dexamples=disabled -Dintrospection=enabled -Dtests=disabled
 if errorlevel 1 exit 1
 
 ninja -v -C builddir -j %CPU_COUNT%
