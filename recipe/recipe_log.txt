@@ -1,0 +1,281 @@
+commit 84c61b623994be4f49a7b0a4ecffbd3201e9f23c
+Merge: 802b39f c6bdb36
+Author: Kai Tietz <47363620+katietz@users.noreply.github.com>
+Date:   Tue Sep 21 13:26:52 2021 +0200
+
+    Merge pull request #2 from AnacondaRecipes/update-1.18.5
+    
+    gstreamer: updated version to 1.18.5
+
+commit c6bdb36be3e336f72880ec2ad78fbf6be7ed6188
+Author: Kai Tietz <ktietz@anaconda.com>
+Date:   Tue Sep 21 12:51:56 2021 +0200
+
+    add libopus to ignore run_exports for aarch64
+
+commit 95927b7afb34a47ae004b3ab7d61c6cb262e29fb
+Author: Kai Tietz <ktietz@anaconda.com>
+Date:   Tue Sep 21 12:46:21 2021 +0200
+
+    adjust CDT for aarch64
+
+commit a6943dc12a44d39ea03f672d3499f5fa1fb21e4e
+Author: Kai Tietz <ktietz@anaconda.com>
+Date:   Tue Sep 21 11:57:57 2021 +0200
+
+    disable usage of opengl on s390x
+
+commit 34164128a6f7969d5b805c38fc892b6ee7c4481f
+Author: Kai Tietz <ktietz@anaconda.com>
+Date:   Tue Sep 21 11:54:45 2021 +0200
+
+    add zlib also for windows as run dependency, adjust CDT usage for s390x
+
+commit 5aa81eb5d56a3e00a4c7fecd3346a425562937fc
+Author: Kai Tietz <ktietz@anaconda.com>
+Date:   Tue Sep 21 11:48:28 2021 +0200
+
+    remove us of mesa-libgl and expat CDTs for s390x
+
+commit d6a6ef0ca5ac065add15184cd62019fe102163fb
+Author: Kai Tietz <ktietz@anaconda.com>
+Date:   Tue Sep 21 11:36:03 2021 +0200
+
+    adjust dependency libxshmfence-devel for aarch64
+
+commit 46bd4d2a780fa0719c3f50ef6ff6450f9fa91b1b
+Author: Kai Tietz <ktietz@anaconda.com>
+Date:   Tue Sep 21 11:30:17 2021 +0200
+
+    meta.yaml
+
+commit a676bcd3c97cfde660d2263cbf31c1460014c325
+Author: dkomisar <dkomisar@anaconda.com>
+Date:   Mon Sep 20 19:51:31 2021 -0400
+
+    gstreamer: remove unneeded libxcb
+
+commit 588c3272875bf6429dc350228d5eddff70be4941
+Author: dkomisar <dkomisar@anaconda.com>
+Date:   Mon Sep 20 18:21:14 2021 -0400
+
+    gstreamer: deps for linux ppc64le
+
+commit 4518ec28f82154865346287409562bffdaa5ba5a
+Author: dkomisar <dkomisar@anaconda.com>
+Date:   Mon Sep 20 16:11:34 2021 -0400
+
+    gstreamer: add deps, disable gl onp ppc641e. Building on osx
+
+commit 6b92090ff465b46a425b38d24025d8f56b34fb81
+Author: dkomisar <dkomisar@anaconda.com>
+Date:   Mon Sep 20 12:07:12 2021 -0400
+
+    gstreamer: adjust dependencies for linux and windows
+
+commit 0610332c1a3c732ef912c3a75ed0dcccb5feea43
+Author: dkomisar <dkomisar@anaconda.com>
+Date:   Mon Sep 20 12:01:19 2021 -0400
+
+    gstreamer: updated version to 1.18.5
+
+commit 802b39fb14222a9af2f930151959c1670d241779
+Author: Kai Tietz <ktietz@anaconda.com>
+Date:   Thu Sep 2 18:28:56 2021 +0200
+
+    add osx-arm64 support
+
+commit c40b967fd1a80614d0911736c3e7274b9190bae3
+Author: Ray Donnelly <mingw.android@gmail.com>
+Date:   Wed May 23 02:10:14 2018 +0100
+
+    Update to 1.14.1
+
+commit ef1be289b947881f60f7e76541f0e5a5dc03adba
+Author: Ray Donnelly <mingw.android@gmail.com>
+Date:   Fri Apr 13 22:56:16 2018 +0000
+
+    linux fixes for OpenGL support
+
+commit 04aa1ced2bd668f2725b58c0d21293d42b61afba
+Author: Ray Donnelly <mingw.android@gmail.com>
+Date:   Thu Apr 12 14:18:01 2018 +0100
+
+    macOS fixes
+
+commit 675d7bc59b6cfac01f3f1536a3354654cfbcd795
+Author: Ray Donnelly <mingw.android@gmail.com>
+Date:   Tue Apr 10 19:09:38 2018 +0100
+
+    Enable gobject-introspection
+
+commit f8e5bb69f3309632bdc588948e4c8d339e5c798b
+Author: Michael Sarahan <msarahan@gmail.com>
+Date:   Mon Apr 2 15:31:26 2018 -0500
+
+    update to 1.14.0; combine with gst_base_plugins
+
+commit 692ca285a368cabee8456d110319475a8abf313a
+Author: Michael Sarahan <msarahan@gmail.com>
+Date:   Tue Feb 27 13:47:45 2018 -0600
+
+    update 1.12.4
+
+commit 7802f9c093d1cd1a0102ec35d03885dddfe0ff62
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Sat Jan 20 07:49:40 2018 -0500
+
+    Specify location of M4, since bison hard codes it
+
+commit 303c5afb339615104c6dabf275c6ce89869afd33
+Merge: fb02a7a 4f73223
+Author: Ray Donnelly <mingw.android@gmail.com>
+Date:   Fri Sep 1 13:25:46 2017 +0100
+
+    Merge pull request #1 from AnacondaRecipes/Maggie-M-patch-1
+    
+    Update meta.yaml
+
+commit 4f73223625fc8a1126973c4f166099c762bf010c
+Author: Maggie-M <maggie.mari@continuum.io>
+Date:   Thu Aug 31 21:02:32 2017 -0500
+
+    Update meta.yaml
+
+commit fb02a7a0668ddfa2d4a4707d190bb73ce8fe3cde
+Author: Ray Donnelly <mingw.android@gmail.com>
+Date:   Sun Aug 27 01:34:34 2017 +0100
+
+    Generalize logging
+
+commit ecca644ada68eb540e76977af2e94bda1f9c1cc1
+Author: Ray Donnelly <mingw.android@gmail.com>
+Date:   Sat Aug 26 21:23:14 2017 +0100
+
+    Ooops
+
+commit 3f79f3662b4bfe643c2bb67274ca94a478afc468
+Author: Ray Donnelly <mingw.android@gmail.com>
+Date:   Sat Aug 26 21:21:37 2017 +0100
+
+    Generalized pinning
+
+commit e9f512ba0136d30e15b827791dd41f2681d0ee90
+Author: Ray Donnelly <mingw.android@gmail.com>
+Date:   Fri Aug 25 20:52:10 2017 +0100
+
+    Generalized pinning
+
+commit bf2c827387c36bbe38670e780dfdfa432966c777
+Author: Ray Donnelly <mingw.android@gmail.com>
+Date:   Fri Aug 25 12:50:57 2017 +0100
+
+    Update glib dep to 2.53
+
+commit 9f02baea08708549895db326eb2441242af2295a
+Author: Ray Donnelly <mingw.android@gmail.com>
+Date:   Thu Aug 24 10:20:28 2017 +0100
+
+    Add cross-compilation support and update to 1.12.2
+
+commit 3535ad3de64e1bc870459318c73debe9505212bf
+Merge: e28c0cc fa8c93f
+Author: Carlos Cordoba <ccordoba12@gmail.com>
+Date:   Mon May 29 10:27:17 2017 -0500
+
+    Merge pull request #7 from conda-forge-admin/feedstock_version_pin_master
+    
+    MNT: Update pinned versions.
+
+commit fa8c93f72f79624780ed3bf7b83bd9263c9c5911
+Author: conda-forge-admin <conda-forge@googlegroups.com>
+Date:   Wed Apr 26 02:13:18 2017 +0000
+
+    MNT: Updated some of the pinned versions
+
+commit e28c0ccdf027a9333ff0d4259f1881f2373e5147
+Merge: 25fa11f c0002e2
+Author: Carlos Cordoba <ccordoba12@gmail.com>
+Date:   Tue Apr 18 11:27:17 2017 -0500
+
+    Merge pull request #8 from conda-forge-admin/feedstock_rerender_master
+    
+    MNT: Re-render the feedstock [ci skip]
+
+commit c0002e26662399abcebdf68618e7af90606018c8
+Author: conda-forge-admin <pelson.pub+conda-forge@gmail.com>
+Date:   Tue Apr 18 01:39:52 2017 +0000
+
+    MNT: Updated the feedstock for conda-smithy version 2.3.0.
+
+commit 25fa11f980b9584ffee5eb5ec12f26a0a04aeacb
+Merge: d866304 7920362
+Author: Carlos Cordoba <ccordoba12@gmail.com>
+Date:   Sat Mar 4 23:31:37 2017 -0500
+
+    Merge pull request #6 from conda-forge-admin/feedstock_rerender_master
+    
+    MNT: Re-render the feedstock [ci skip]
+
+commit 7920362650518db9a5394dbf5278a6710c73f34b
+Author: conda-forge-admin <pelson.pub+conda-forge@gmail.com>
+Date:   Sun Mar 5 01:38:53 2017 +0000
+
+    MNT: Updated the feedstock for conda-smithy version 2.1.1.
+
+commit d866304ae3751b5459608cfafb302d74ce17aeb8
+Merge: e250e3a 1fde8e4
+Author: Carlos Cordoba <ccordoba12@gmail.com>
+Date:   Sun Dec 4 18:51:43 2016 -0500
+
+    Merge pull request #5 from conda-forge-admin/feedstock_rerender_master
+    
+    MNT: Re-render the feedstock [ci skip]
+
+commit 1fde8e40230a774f9b5b46648281238619b8e4b5
+Author: conda-forge-admin <pelson.pub+conda-forge@gmail.com>
+Date:   Thu Dec 1 01:38:29 2016 +0000
+
+    MNT: Updated the feedstock for conda-smithy version 1.6.1.
+
+commit e250e3ad978a963d002a5a3564f2ef4f239c9fbc
+Merge: 0d24211 c9d08e2
+Author: jakirkham <jakirkham@gmail.com>
+Date:   Sun Oct 9 16:00:51 2016 -0400
+
+    Merge pull request #4 from conda-forge-admin/feedstock_rerender_master
+    
+    MNT: Re-render the feedstock [ci skip]
+
+commit c9d08e250b8cf6b98aaa9be2f93ef15fbe164207
+Author: conda-forge-admin <pelson.pub+conda-forge@gmail.com>
+Date:   Sun Oct 9 19:49:11 2016 +0000
+
+    MNT: Updated the feedstock for conda-smithy version 1.3.2.
+
+commit 0d242117df2777c90fd17d9351f4af284dcf1b9c
+Merge: d0d2ceb 7be06fe
+Author: Carlos Cordoba <ccordoba12@gmail.com>
+Date:   Tue Oct 4 06:01:34 2016 +0200
+
+    Merge pull request #3 from conda-forge-admin/feedstock_version_pin_master
+    
+    MNT: Update pinned versions.
+
+commit 7be06febfb953b34e5954a1aa53db21b7132c301
+Author: conda-forge-admin <conda-forge@googlegroups.com>
+Date:   Tue Oct 4 03:39:48 2016 +0000
+
+    MNT: Updated some of the pinned versions
+
+commit d0d2ceb15308fdfe2a56f28441c1fd1f9e37f8bf
+Author: Travis-CI on github.com/conda-forge/staged-recipes <conda-forge@googlegroups.com>
+Date:   Mon Aug 29 17:31:03 2016 +0000
+
+    Re-render the feedstock after CI registration.
+
+commit 62f8cd888c0d7e46635f500dc2ae59de2b58c655
+Author: Travis-CI on github.com/conda-forge/staged-recipes <conda-forge@googlegroups.com>
+Date:   Mon Aug 29 17:29:46 2016 +0000
+
+    Initial commit of the gstreamer feedstock.
