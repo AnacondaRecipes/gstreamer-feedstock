@@ -15,7 +15,7 @@ source:
 
 build:
   skip: true  # [win]
-  number: 0
+  number: 1
 
 outputs:
   - name: gstreamer
@@ -40,12 +40,12 @@ outputs:
         - perl
         - libtool
       host:
-        - gobject-introspection
-        - gettext                            # [osx]
-        - pcre                               # [linux]
-        - libffi                             # [linux]
-        - glib
-        - xz
+        - gobject-introspection 1.68.0
+        - gettext 0.21.0                     # [osx]
+        - pcre 8.45                          # [linux]
+        - libffi 2.4.6                       # [linux]
+        - glib 2.69.0
+        - xz 5.2.5
     test:
       commands:
         - gst-inspect-1.0 --version
