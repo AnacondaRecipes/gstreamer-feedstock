@@ -89,12 +89,12 @@ outputs:
         - libtool # [not win]
       host:
         - {{ pin_subpackage('gstreamer') }}
-        - glib
-        - zlib
-        - gettext                            # [osx]
+        - glib 2.69.0
+        - zlib 1.2.11
+        - gettext 0.21.0                     # [osx]
         - libxcb                             # [linux]
         - pthread-stubs                      # [linux]
-        - xz
+        - xz 5.2.5
       run:
         - {{ pin_compatible('gstreamer') }}
 
