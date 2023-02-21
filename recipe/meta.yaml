@@ -36,7 +36,9 @@ outputs:
         - m4
         - autoconf
         - automake
-        - make
+        # See the following issue: https://bugs.gentoo.org/705974
+        # We could either patch, or use v4.2
+        - make 4.2.1 
         - perl
         - libtool
       host:
@@ -84,7 +86,7 @@ outputs:
         - m4
         - autoconf
         - automake
-        - make
+        - make 4.2.1 
         - perl
         - libtool # [not win]
       host:
