@@ -46,7 +46,7 @@ outputs:
         - gettext 0.21.0                     # [osx]
         - pcre 8.45                          # [linux]
         - libffi 3.4.2                      # [linux]
-        - glib 2.69.0
+        - glib 2.69.1
         - xz 5.2.5
     test:
       commands:
