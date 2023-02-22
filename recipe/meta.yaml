@@ -69,7 +69,7 @@ outputs:
         - {{ cdt('libxrender-devel') }}      # [linux]
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
         - {{ cdt('mesa-libgl-devel') }}      # [linux and not s390x]
-        - {{ cdt('mesa-libegl-devel') }}     # [linux]
+        - {{ cdt('mesa-libegl-devel') }}     # [linux and not ppc64le]
         - {{ cdt('libdrm-devel') }}          # [linux and not s390x]
         - {{ cdt('libxdamage-devel') }}      # [linux]
         - {{ cdt('libxfixes-devel') }}       # [linux]
