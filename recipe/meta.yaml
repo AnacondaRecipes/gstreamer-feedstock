@@ -83,6 +83,7 @@ outputs:
         # expat here is _only_ required for mesa-dri-drivers
         - {{ cdt('expat') }}                 # [linux and not s390x]
         - {{ cdt('libselinux-devel') }}      # [linux]
+        - {{ cdt('mesa-libgbm') }}           # [linux and x86_64]
         - pkg-config
         - meson
         - ninja
