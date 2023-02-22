@@ -33,21 +33,12 @@ outputs:
         - pkg-config
         - bison
         - flex
-        - m4
-        - autoconf
-        - automake
-        # See the following issue: https://bugs.gentoo.org/705974
-        # We could either patch, or use v4.2
-        - make 4.2.1 
-        - perl
-        - libtool
+        - meson
+        - ninja
+        - gobject-introspection
       host:
-        - gobject-introspection 1.68.0
-        - gettext 0.21.0                     # [osx]
-        - pcre 8.45                          # [linux]
-        - libffi 3.4.2                      # [linux]
-        - glib 2.69.1
-        - xz 5.2.5
+        - gettext                  # [osx]
+        - glib 
     test:
       commands:
         - gst-inspect-1.0 --version
@@ -77,26 +68,32 @@ outputs:
         - {{ cdt('libx11-devel') }}          # [linux]
         - {{ cdt('libxrender-devel') }}      # [linux]
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-        - {{ cdt('mesa-libgl-devel') }}      # [linux]
-        - {{ cdt('libdrm-devel') }}          # [linux]
+        - {{ cdt('mesa-libgl-devel') }}      # [linux and not s390x]
+        - {{ cdt('mesa-libegl-devel') }}     # [linux]
+        - {{ cdt('libdrm-devel') }}          # [linux and not s390x]
         - {{ cdt('libxdamage-devel') }}      # [linux]
         - {{ cdt('libxfixes-devel') }}       # [linux]
         - {{ cdt('libxxf86vm-devel') }}      # [linux]
+        - {{ cdt('mesa-dri-drivers') }}      # [linux]
+        # These dependencies are only for cos7 platforms
+        - {{ cdt('libglvnd-glx') }}          # [linux & (ppc64le | aarch64)]
+        - {{ cdt('libglvnd') }}              # [linux & (ppc64le | aarch64)]
+        - {{ cdt('libxshmfence-devel') }}    # [linux and ppc64le]
+        - {{ cdt('mesa-khr-devel') }}        # [linux & (ppc64le | aarch64)]
+        # expat here is _only_ required for mesa-dri-drivers
+        - {{ cdt('expat') }}                 # [linux and not s390x]
+        - {{ cdt('libselinux-devel') }}      # [linux]
         - pkg-config
-        - m4
-        - autoconf
-        - automake
-        - make 4.2.1 
-        - perl
-        - libtool # [not win]
+        - meson
+        - ninja
+        - gobject-introspection
       host:
         - {{ pin_subpackage('gstreamer') }}
-        - glib 2.69.1
-        - zlib 1.2.11
-        - gettext 0.21.0                     # [osx]
+        - glib 
+        - zlib 
         - libxcb                             # [linux]
         - pthread-stubs                      # [linux]
-        - xz 5.2.5
+        # - xz 
       run:
         - {{ pin_compatible('gstreamer') }}
 
