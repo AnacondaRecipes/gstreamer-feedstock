@@ -37,8 +37,8 @@ outputs:
         - ninja
         - gobject-introspection
       host:
-        - gettext                  # [osx]
-        - glib 
+        - gettext 0.21.0                  # [osx]
+        - glib 2.69.1
     test:
       commands:
         - gst-inspect-1.0 --version
@@ -89,10 +89,10 @@ outputs:
         - gobject-introspection
       host:
         - {{ pin_subpackage('gstreamer') }}
-        - glib 
-        - zlib 
-        - libxcb                             # [linux]
-        - pthread-stubs                      # [linux]
+        - glib 2.69.1
+        - zlib 1.2.11
+        - libxcb 1.14                          # [linux]
+        - pthread-stubs 0.3                    # [linux]
         # - xz 
       run:
         - {{ pin_compatible('gstreamer') }}
