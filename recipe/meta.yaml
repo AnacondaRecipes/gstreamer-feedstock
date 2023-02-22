@@ -91,7 +91,7 @@ outputs:
         - libtool # [not win]
       host:
         - {{ pin_subpackage('gstreamer') }}
-        - glib 2.69.0
+        - glib 2.69.1
         - zlib 1.2.11
         - gettext 0.21.0                     # [osx]
         - libxcb                             # [linux]
