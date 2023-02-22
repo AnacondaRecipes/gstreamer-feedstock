@@ -124,7 +124,14 @@ outputs:
 
 about:
   home: http://gstreamer.freedesktop.org/
-  license: LGPL 2
+  license: LGPL-2.1-or-later
+  license_family: LGPL
+  license_file: COPYING
+  summary: GStreamer is a framework for streaming media.
+  description: |
+    GStreamer is a library for constructing graphs of media-handling components. 
+    The applications it supports range from simple Ogg/Vorbis playback, audio/video 
+    streaming to complex audio (mixing) and video (non-linear editing) processing.
   doc_url: https://gstreamer.freedesktop.org/documentation/
   dev_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/
 
