@@ -1,0 +1,3 @@
+build_parameters:
+  - "--suppress-variables"
+  - "--error-overlinking"
