@@ -160,7 +160,7 @@ outputs:
       activate_in_script: true
       run_exports:
         - {{ pin_subpackage('gst-plugins-good', max_pin='x.x') }}
-      missing_dso_whitelist:  # [linux]
+      missing_dso_whitelist:
         - $RPATH/libc.so.6  # [linux]
         - $RPATH/libm.so.6  # [linux]
         - $RPATH/libpthread.so.0  # [linux]
