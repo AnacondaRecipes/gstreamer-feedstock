@@ -1,4 +1,4 @@
-{% set version = "1.20.3" %}
+{% set version = "1.22.3" %}
 {% set posix = 'm2-' if win else '' %}
 
 package:
@@ -7,12 +7,12 @@ package:
 
 source:
   - url: https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-{{ version }}.tar.xz
-    sha256: 607daf64bbbd5fb18af9d17e21c0d22c4d702fffe83b23cb22d1b1af2ca23a2a
+    sha256: 9ffeab95053f9f6995eb3b3da225e88f21c129cd60da002d3f795db70d6d5974
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-{{ version }}.tar.xz
-    sha256: 7e30b3dd81a70380ff7554f998471d6996ff76bbe6fc5447096f851e24473c9f
+    sha256: 1c596289a0d4207380233eba8c36a932c4d1aceba19932937d9b57c24cef89f3
     folder: plugins_base
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-{{ version }}.tar.xz
-    sha256: f8f3c206bf5cdabc00953920b47b3575af0ef15e9f871c0b6966f6d0aa5868b7
+    sha256: af81154b3a2ef3f4d2feba395f25696feea6fd13ec62c92d3c7a973470710273
     folder: plugins_good
 
 build:
@@ -108,7 +108,7 @@ outputs:
         - ninja
         - gobject-introspection
       host:
-        - {{ pin_subpackage('gstreamer') }}
+        - {{ pin_subpackage('gstreamer', exact=True) }}
         - glib
         - zlib
         - gettext                            # [not win]	
