@@ -165,7 +165,8 @@ outputs:
         - $RPATH/libm.so.6  # [linux]
         - $RPATH/libpthread.so.0  # [linux]
         - $RPATH/libdl.so.2 #[linux]
-        - $RPATH/libcrypto.so.1.1 # [unix]
+        - $RPATH/libcrypto.so.1.1 # [linux]
+        - $RPATH/libcrypto.1.1.dylib # [osx]
     requirements:
       build:
         - {{ compiler('c') }}
