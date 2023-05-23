@@ -118,7 +118,7 @@ outputs:
         - libopus                            # [unix]
         - libvorbis
       run:
-        - {{ pin_compatible('gstreamer') }}
+        - {{ pin_compatible('gstreamer', exact=True) }}
         - libpng                             # [unix]
         - libogg
         - gettext                            # [unix]
@@ -165,6 +165,7 @@ outputs:
         - $RPATH/libm.so.6  # [linux]
         - $RPATH/libpthread.so.0  # [linux]
         - $RPATH/libdl.so.2 #[linux]
+        - $RPATH/libcrypto.so.1.1 # [unix]
     requirements:
       build:
         - {{ compiler('c') }}
@@ -194,18 +195,19 @@ outputs:
       host:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         - {{ pin_subpackage('gst-plugins-base', exact=True) }}
-        - glib
+        - glib 2.69.1
         - libxcb                             # [linux]
         #- jack >=1.9.7                       # [linux64]
         - lame                               # [linux]
         - mpg123                             # [linux64 or osx]
       run:
-        - {{ pin_compatible('gstreamer') }}
-        - {{ pin_subpackage('gst-plugins-base') }}
+        - {{ pin_compatible('gstreamer', exact=True) }}
+        - {{ pin_subpackage('gst-plugins-base', exact=True) }}
         - gettext                            # [osx]
         - zlib
         - libpng                             # [unix]
         - mpg123                             # [unix]
+        - libxml2 >=2.8
     test:
       commands:
         - test -f $PREFIX/lib/gstreamer-1.0/libgstalpha${SHLIB_EXT}  # [unix]
