@@ -192,8 +192,8 @@ outputs:
         - meson
         - ninja
       host:
-        - {{ pin_subpackage('gstreamer') }}
-        - {{ pin_subpackage('gst-plugins-base') }}
+        - {{ pin_subpackage('gstreamer', exact=True) }}
+        - {{ pin_subpackage('gst-plugins-base', exact=True) }}
         - glib
         - libxcb                             # [linux]
         #- jack >=1.9.7                       # [linux64]
