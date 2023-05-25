@@ -141,7 +141,7 @@ outputs:
         - test -f $PREFIX/lib/girepository-1.0/GstVideo-1.0.typelib  # [unix]
         - if not exist %LIBRARY_BIN%\\gstallocators-1.0-0.dll exit 1  # [win]
         - if not exist %LIBRARY_LIB%\\girepository-1.0\\GstVideo-1.0.typelib exit 1  # [win]
-        - GST_DEBUG=4 gst-inspect-1.0 --plugin volume
+        - gst-inspect-1.0 --plugin volume
 
     about:
       summary: GStreamer Base Plug-ins
