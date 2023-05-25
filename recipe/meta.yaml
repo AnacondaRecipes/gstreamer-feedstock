@@ -47,7 +47,7 @@ outputs:
         - gettext 0.21.0                    # [not win]
         - glib 2.69.1
       run:
-        - gettext                           # [not win]
+        - {{ pin_compatible('gettext') }}   # [not win]
     test:
       commands:
         - gst-inspect-1.0 --version
@@ -119,12 +119,12 @@ outputs:
         - libvorbis 1.3.7
       run:
         - {{ pin_compatible('gstreamer', exact=True) }}
-        - libpng                             # [unix]
-        - libogg
-        - gettext                            # [unix]
-        - zlib
-        - libvorbis
-        - libopus                            # [unix]
+        - {{ pin_compatible('libpng', max_pin='x.x') }} # [unix]
+        - {{ pin_compatible('libogg') }}
+        - {{ pin_compatible('gettext') }}               # [unix]
+        - {{ pin_compatible('zlib', max_pin='x.x.x') }}
+        - {{ pin_compatible('libvorbis') }}
+        - {{ pin_compatible('libopus') }}               # [unix]
     test:
       commands:
         - test -f $PREFIX/lib/libgstallocators-1.0${SHLIB_EXT}  # [unix]
@@ -198,16 +198,15 @@ outputs:
         - {{ pin_subpackage('gst-plugins-base', exact=True) }}
         - glib 2.69.1
         - libxcb 1.14.0                      # [linux]
-        #- jack >=1.9.7                      # [linux64]
         - lame 3.100                         # [linux]
         - mpg123 1.30.0                      # [linux64 or osx]
       run:
         - {{ pin_compatible('gstreamer', exact=True) }}
         - {{ pin_subpackage('gst-plugins-base', exact=True) }}
-        - gettext                            # [osx]
-        - zlib
-        - libpng                             # [unix]
-        - mpg123                             # [unix]
+        - {{ pin_compatible('gettext') }}    # [osx]
+        - {{ pin_compatible('zlib', max_pin='x.x.x') }}
+        - {{ pin_compatible('libpng', max_pin='x.x') }} # [unix]
+        - {{ pin_compatible('mpg123', max_pin='x.x') }} # [unix]
         - libxml2 >=2.8
     test:
       commands:
