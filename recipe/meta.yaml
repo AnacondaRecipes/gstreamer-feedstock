@@ -122,7 +122,7 @@ outputs:
         - libopus 1.3                        # [unix]
         - libvorbis 1.3.7
       run:
-        - {{ pin_compatible('gstreamer', exact=True) }}
+        - {{ pin_subpackage('gstreamer', exact=True) }}
         - {{ pin_compatible('libpng', max_pin='x.x') }} # [unix]
         - {{ pin_compatible('libogg') }}
         - {{ pin_compatible('gettext') }}               # [unix]
@@ -205,7 +205,7 @@ outputs:
         - lame 3.100                         # [linux]
         - mpg123 1.30.0                      # [linux64 or osx]
       run:
-        - {{ pin_compatible('gstreamer', exact=True) }}
+        - {{ pin_subpackage('gstreamer', exact=True) }}
         - {{ pin_subpackage('gst-plugins-base', exact=True) }}
         - {{ pin_compatible('gettext') }}    # [osx]
         - {{ pin_compatible('zlib', max_pin='x.x.x') }}
