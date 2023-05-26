@@ -17,6 +17,10 @@ source:
 
 build:
   number: 0
+  # Installing and using plugins in the conda environment isn't working for s390x, due to build options not correctly
+  # translating into the location of a helper library at runtime, for this platform.
+  # Audio/video tools aren't needed on s390x anyway.
+  skip: True # [linux and s390x]
 
 outputs:
   - name: gstreamer
