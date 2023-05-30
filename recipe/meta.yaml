@@ -1,4 +1,4 @@
-{% set version = "1.18.5" %}
+{% set version = "1.22.3" %}
 {% set posix = 'm2-' if win else '' %}
 
 package:
@@ -7,16 +7,20 @@ package:
 
 source:
   - url: https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-{{ version }}.tar.xz
-    sha256: 55862232a63459bbf56abebde3085ca9aec211b478e891dacea4d6df8cafe80a
+    sha256: 9ffeab95053f9f6995eb3b3da225e88f21c129cd60da002d3f795db70d6d5974
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-{{ version }}.tar.xz
-    sha256: 960b7af4585700db0fdd5b843554e11e2564fed9e061f591fae88a7be6446fa3
+    sha256: 1c596289a0d4207380233eba8c36a932c4d1aceba19932937d9b57c24cef89f3
     folder: plugins_base
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-{{ version }}.tar.xz
-    sha256: 3aaeeea7765fbf8801acce4a503a9b05f73f04e8a35352e9d00232cfd555796b
+    sha256: af81154b3a2ef3f4d2feba395f25696feea6fd13ec62c92d3c7a973470710273
     folder: plugins_good
 
 build:
   number: 0
+  # Installing and using plugins in the conda environment isn't working for s390x, due to build options not correctly
+  # translating into the location of a helper library at runtime, for this platform.
+  # Audio/video tools aren't needed on s390x anyway.
+  skip: True # [linux and s390x]
 
 outputs:
   - name: gstreamer
@@ -44,10 +48,10 @@ outputs:
         - ninja
         - gobject-introspection
       host:
-        - gettext                           # [not win]
-        - glib
+        - gettext 0.21.0                    # [not win]
+        - glib 2.69.1
       run:
-        - gettext                           # [not win]
+        - {{ pin_compatible('gettext') }}   # [not win]
     test:
       commands:
         - gst-inspect-1.0 --version
@@ -59,7 +63,7 @@ outputs:
     about:
       summary: Library for constructing graphs of media-handling components
       description:
-      doc_source_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/docs
+      doc_source_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/subprojects/gstreamer/docs
 
   - name: gst-plugins-base
     script: install_base_plugins.sh  # [unix]
@@ -67,8 +71,8 @@ outputs:
     build:
       ignore_run_exports:
         - gettext                    # [not win]
-        - libpng                     # [linux & ppc64le]
-        - libxcb                     # [linux & ppc64le]
+        - libpng                     # [linux and ppc64le]
+        - libxcb                     # [linux and ppc64le]
         - libvorbis
         - libopus                    # [unix]
       activate_in_script: true
@@ -89,41 +93,42 @@ outputs:
         - {{ cdt('libx11-devel') }}          # [linux]
         - {{ cdt('libxrender-devel') }}      # [linux]
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-        - {{ cdt('mesa-libgl-devel') }}      # [linux and not s390x]
-        - {{ cdt('libdrm-devel') }}          # [linux and not s390x]
+        - {{ cdt('mesa-libgl-devel') }}      # [linux]
+        - {{ cdt('libdrm-devel') }}          # [linux]
         - {{ cdt('libxdamage-devel') }}      # [linux]
         - {{ cdt('libxfixes-devel') }}       # [linux]
         - {{ cdt('libxxf86vm-devel') }}      # [linux]
         - {{ cdt('mesa-dri-drivers') }}      # [linux]
         # These dependencies are only for cos7 platforms
-        - {{ cdt('libglvnd-glx') }}          # [linux & (ppc64le | aarch64)]
-        - {{ cdt('libglvnd') }}              # [linux & (ppc64le | aarch64)]
+        - {{ cdt('libglvnd-glx') }}          # [linux and (ppc64le | aarch64)]
+        - {{ cdt('libglvnd') }}              # [linux and (ppc64le | aarch64)]
         - {{ cdt('libxshmfence-devel') }}    # [linux and ppc64le]
-        - {{ cdt('mesa-khr-devel') }}        # [linux & (ppc64le | aarch64)]
+        - {{ cdt('mesa-khr-devel') }}        # [linux and (ppc64le | aarch64)]
         # expat here is _only_ required for mesa-dri-drivers
-        - {{ cdt('expat') }}                 # [linux and not s390x]
+        - {{ cdt('expat') }}                 # [linux]
         - {{ cdt('libselinux-devel') }}      # [linux]
         - pkg-config
         - meson
         - ninja
         - gobject-introspection
       host:
-        - {{ pin_subpackage('gstreamer') }}
-        - glib
+        - {{ pin_subpackage('gstreamer', exact=True) }}
+        - glib 2.69.1
         - zlib
-        - gettext                            # [not win]	
-        - libxcb                             # [linux]
-        - libpng                             # [unix]
+        - gettext 0.21.0                     # [not win]
+        - libxcb  1.14.0                     # [linux]
+        - libpng  1.6.37                     # [unix]
         #- alsa-lib                           # [linux]
-        - libopus                            # [unix]
-        - libvorbis
+        - libopus 1.3                        # [unix]
+        - libvorbis 1.3.7
       run:
-        - {{ pin_compatible('gstreamer') }}
-        - libpng                             # [unix]
-        - libogg
-        - gettext                            # [unix]
-        - zlib
-        - libvorbis
+        - {{ pin_subpackage('gstreamer', exact=True) }}
+        - {{ pin_compatible('libpng', max_pin='x.x') }} # [unix]
+        - {{ pin_compatible('libogg') }}
+        - {{ pin_compatible('gettext') }}               # [unix]
+        - {{ pin_compatible('zlib', max_pin='x.x.x') }}
+        - {{ pin_compatible('libvorbis') }}
+        - {{ pin_compatible('libopus') }}               # [unix]
     test:
       commands:
         - test -f $PREFIX/lib/libgstallocators-1.0${SHLIB_EXT}  # [unix]
@@ -148,7 +153,7 @@ outputs:
         GStreamer Base Plug-ins is a well-groomed and well-maintained collection of
         GStreamer plug-ins and elements, spanning the range of possible types of
         elements one would want to write for GStreamer.
-      doc_source_url: https://github.com/GStreamer/gst-plugins-base/tree/master/docs
+      doc_source_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/subprojects/gst-plugins-base/docs
 
   - name: gst-plugins-good
     script: install_good_plugins.sh  # [unix]
@@ -159,10 +164,13 @@ outputs:
       activate_in_script: true
       run_exports:
         - {{ pin_subpackage('gst-plugins-good', max_pin='x.x') }}
-      missing_dso_whitelist:  # [linux]
+      missing_dso_whitelist:
         - $RPATH/libc.so.6  # [linux]
         - $RPATH/libm.so.6  # [linux]
         - $RPATH/libpthread.so.0  # [linux]
+        - $RPATH/libdl.so.2 #[linux]
+        - $RPATH/libcrypto.so.1.1 # [linux]
+        - $RPATH/libcrypto.1.1.dylib # [osx]
     requirements:
       build:
         - {{ compiler('c') }}
@@ -172,38 +180,38 @@ outputs:
         - {{ cdt('libx11-devel') }}          # [linux]
         - {{ cdt('libxrender-devel') }}      # [linux]
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-        - {{ cdt('mesa-libgl-devel') }}      # [linux and not s390x]
-        - {{ cdt('libdrm-devel') }}          # [linux and not s390x]
+        - {{ cdt('mesa-libgl-devel') }}      # [linux]
+        - {{ cdt('libdrm-devel') }}          # [linux]
         - {{ cdt('libxdamage-devel') }}      # [linux]
         - {{ cdt('libxfixes-devel') }}       # [linux]
         - {{ cdt('libxxf86vm-devel') }}      # [linux]
         - {{ cdt('mesa-dri-drivers') }}      # [linux]
         # These dependencies are only for cos7 platforms
-        - {{ cdt('libglvnd-glx') }}          # [linux & (ppc64le | aarch64)]
-        - {{ cdt('libglvnd') }}              # [linux & (ppc64le | aarch64)]
+        - {{ cdt('libglvnd-glx') }}          # [linux and (ppc64le | aarch64)]
+        - {{ cdt('libglvnd') }}              # [linux and (ppc64le | aarch64)]
         - {{ cdt('libxshmfence-devel') }}    # [linux and ppc64le]
-        - {{ cdt('mesa-khr-devel') }}        # [linux & (ppc64le | aarch64)]
+        - {{ cdt('mesa-khr-devel') }}        # [linux and (ppc64le | aarch64)]
         # expat here is _only_ required for mesa-dri-drivers
-        - {{ cdt('expat') }}                 # [linux and not s390x]
+        - {{ cdt('expat') }}                 # [linux]
         - {{ cdt('libselinux-devel') }}      # [linux]
         - pkg-config
         - meson
         - ninja
       host:
-        - {{ pin_subpackage('gstreamer') }}
-        - {{ pin_subpackage('gst-plugins-base') }}
-        - glib
-        - libxcb                             # [linux]
-        #- jack >=1.9.7                       # [linux64]
-        - lame                               # [linux]
-        - mpg123                             # [linux64 or osx]
+        - {{ pin_subpackage('gstreamer', exact=True) }}
+        - {{ pin_subpackage('gst-plugins-base', exact=True) }}
+        - glib 2.69.1
+        - libxcb 1.14.0                      # [linux]
+        - lame 3.100                         # [linux]
+        - mpg123 1.30.0                      # [(linux and x86_64) or osx]
       run:
-        - {{ pin_compatible('gstreamer') }}
-        - {{ pin_subpackage('gst-plugins-base') }}
-        - gettext                            # [osx]
-        - zlib
-        - libpng                             # [unix]
-        - mpg123                             # [unix]
+        - {{ pin_subpackage('gstreamer', exact=True) }}
+        - {{ pin_subpackage('gst-plugins-base', exact=True) }}
+        - {{ pin_compatible('gettext') }}    # [osx]
+        - {{ pin_compatible('zlib', max_pin='x.x.x') }}
+        - {{ pin_compatible('libpng', max_pin='x.x') }} # [unix]
+        - {{ pin_compatible('mpg123', max_pin='x.x') }} # [unix]
+        - libxml2 >=2.8
     test:
       commands:
         - test -f $PREFIX/lib/gstreamer-1.0/libgstalpha${SHLIB_EXT}  # [unix]
@@ -222,13 +230,18 @@ outputs:
         all: good looks, good code, and good licensing.  Documented and
         dressed up in tests.  If you're looking for a role model to
         base your own plug-in on here it is.
-      doc_source_url: https://github.com/GStreamer/gst-plugins-good/tree/master/docs
+      doc_source_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/subprojects/gst-plugins-good/docs
 
 about:
   home: https://gstreamer.freedesktop.org/
   summary: Library for constructing graphs of media-handling components
   license: LGPL-2.0-or-later
   license_file: COPYING
+  license_family: LGPL
+  description: |
+    The applications it supports range from simple Ogg/Vorbis playback,
+    audio/video streaming to complex audio (mixing) and video
+    (non-linear editing) processing.
   doc_url: https://gstreamer.freedesktop.org/documentation/
   dev_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/
 
