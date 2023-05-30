@@ -71,8 +71,8 @@ outputs:
     build:
       ignore_run_exports:
         - gettext                    # [not win]
-        - libpng                     # [linux & (ppc64le | s390x)]
-        - libxcb                     # [linux & (ppc64le | s390x)]
+        - libpng                     # [linux and ppc64le]
+        - libxcb                     # [linux and ppc64le]
         - libvorbis
         - libopus                    # [unix]
       activate_in_script: true
@@ -93,19 +93,19 @@ outputs:
         - {{ cdt('libx11-devel') }}          # [linux]
         - {{ cdt('libxrender-devel') }}      # [linux]
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-        - {{ cdt('mesa-libgl-devel') }}      # [linux and not s390x]
-        - {{ cdt('libdrm-devel') }}          # [linux and not s390x]
+        - {{ cdt('mesa-libgl-devel') }}      # [linux]
+        - {{ cdt('libdrm-devel') }}          # [linux]
         - {{ cdt('libxdamage-devel') }}      # [linux]
         - {{ cdt('libxfixes-devel') }}       # [linux]
         - {{ cdt('libxxf86vm-devel') }}      # [linux]
         - {{ cdt('mesa-dri-drivers') }}      # [linux]
         # These dependencies are only for cos7 platforms
-        - {{ cdt('libglvnd-glx') }}          # [linux & (ppc64le | aarch64)]
-        - {{ cdt('libglvnd') }}              # [linux & (ppc64le | aarch64)]
+        - {{ cdt('libglvnd-glx') }}          # [linux and (ppc64le | aarch64)]
+        - {{ cdt('libglvnd') }}              # [linux and (ppc64le | aarch64)]
         - {{ cdt('libxshmfence-devel') }}    # [linux and ppc64le]
-        - {{ cdt('mesa-khr-devel') }}        # [linux & (ppc64le | aarch64)]
+        - {{ cdt('mesa-khr-devel') }}        # [linux and (ppc64le | aarch64)]
         # expat here is _only_ required for mesa-dri-drivers
-        - {{ cdt('expat') }}                 # [linux and not s390x]
+        - {{ cdt('expat') }}                 # [linux]
         - {{ cdt('libselinux-devel') }}      # [linux]
         - pkg-config
         - meson
@@ -180,19 +180,19 @@ outputs:
         - {{ cdt('libx11-devel') }}          # [linux]
         - {{ cdt('libxrender-devel') }}      # [linux]
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-        - {{ cdt('mesa-libgl-devel') }}      # [linux and not s390x]
-        - {{ cdt('libdrm-devel') }}          # [linux and not s390x]
+        - {{ cdt('mesa-libgl-devel') }}      # [linux]
+        - {{ cdt('libdrm-devel') }}          # [linux]
         - {{ cdt('libxdamage-devel') }}      # [linux]
         - {{ cdt('libxfixes-devel') }}       # [linux]
         - {{ cdt('libxxf86vm-devel') }}      # [linux]
         - {{ cdt('mesa-dri-drivers') }}      # [linux]
         # These dependencies are only for cos7 platforms
-        - {{ cdt('libglvnd-glx') }}          # [linux & (ppc64le | aarch64)]
-        - {{ cdt('libglvnd') }}              # [linux & (ppc64le | aarch64)]
+        - {{ cdt('libglvnd-glx') }}          # [linux and (ppc64le | aarch64)]
+        - {{ cdt('libglvnd') }}              # [linux and (ppc64le | aarch64)]
         - {{ cdt('libxshmfence-devel') }}    # [linux and ppc64le]
-        - {{ cdt('mesa-khr-devel') }}        # [linux & (ppc64le | aarch64)]
+        - {{ cdt('mesa-khr-devel') }}        # [linux and (ppc64le | aarch64)]
         # expat here is _only_ required for mesa-dri-drivers
-        - {{ cdt('expat') }}                 # [linux and not s390x]
+        - {{ cdt('expat') }}                 # [linux]
         - {{ cdt('libselinux-devel') }}      # [linux]
         - pkg-config
         - meson
@@ -203,7 +203,7 @@ outputs:
         - glib 2.69.1
         - libxcb 1.14.0                      # [linux]
         - lame 3.100                         # [linux]
-        - mpg123 1.30.0                      # [linux64 or osx]
+        - mpg123 1.30.0                      # [(linux and x86_64) or osx]
       run:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         - {{ pin_subpackage('gst-plugins-base', exact=True) }}
