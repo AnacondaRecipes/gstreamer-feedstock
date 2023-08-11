@@ -179,7 +179,7 @@ outputs:
       run_exports:
         # remove symbols at .90 patch releases just before minor versions?
         #    https://abi-laboratory.pro/tracker/timeline/gstreamer/
-        - {{ pin_subpackage('gst-plugins-base', max_pin='x.x') }}
+        - {{ pin_subpackage('gst-plugins-base', max_pin='x.x.x') }}
 
     requirements:
 {% if target_platform == 'linux-64' %}
@@ -421,7 +421,7 @@ outputs:
         - _libgcc_mutex 0.1 main
         - _openmp_mutex 5.1 51_gnu
         - glib 2.69.1 h549d06d_1
-        - gstreamer >=1.14.1,<2.0a0
+        - gstreamer 1.14.1
         - libffi 3.3 h7c1a80f_2
         - libgcc-ng 11.2.0 h1234567_1
         - libgomp 11.2.0 h1234567_1
@@ -496,8 +496,12 @@ outputs:
 
 
 about:
-  home: http://gstreamer.freedesktop.org/
-  license: LGPL 2
+  home: https://gstreamer.freedesktop.org/
+  license: LGPL-2.0-only
+  license_family: LGPL
+  license_url: https://gstreamer.freedesktop.org/documentation/plugin-development/appendix/licensing-advisory.html
+  description: "GStreamer is a framework for creating streaming media applications."
+  summary: "GStreamer is a framework for creating streaming media applications."
   doc_url: https://gstreamer.freedesktop.org/documentation/
   dev_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/
 
