@@ -268,7 +268,7 @@ outputs:
         - libstdcxx-ng >=11.2.0
         - libxcb >=1.14,<2.0a0
         - zlib >=1.2.11,<1.3.0a0
-{% if target_platform == 'linux-arch64' %}
+{% elif target_platform == 'linux-arch64' %}
       build:
         - _libgcc_mutex 0.1 main
         - _openmp_mutex 5.1 51_gnu
