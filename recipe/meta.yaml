@@ -18,8 +18,8 @@ source:
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-{{ version }}.tar.xz
     sha256: {{ plugin_base_sha256 }}
     folder: plugins_base
-    patches:
-      - patches/CVE-2019-9928_gstreamer_pull_157.patch
+    # patches:
+    #   - patches/CVE-2019-9928_gstreamer_pull_157.patch
 
 build:
   skip: true  # [win]
