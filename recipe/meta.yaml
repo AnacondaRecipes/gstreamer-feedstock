@@ -37,6 +37,7 @@ outputs:
     requirements:
 {% if target_platform == 'linux-64' %}
       build:
+        - patch
         - _libgcc_mutex 0.1 main
         - _openmp_mutex 5.1 1_gnu
         - _sysroot_linux-64_curr_repodata_hack 3 haa98f57_10
@@ -89,6 +90,7 @@ outputs:
         - libgcc-ng >=11.2.0
 {% elif target_platform == 'linux-aarch64' %}
       build:
+        - patch
         - _libgcc_mutex 0.1 main
         - _openmp_mutex 5.1 51_gnu
         - binutils_impl_linux-aarch64 2.38 h0c9fd12_1
@@ -150,6 +152,7 @@ outputs:
         - make
         - perl
         - libtool
+        - patch
       host:
         - gobject-introspection
         - gettext                            # [osx]
