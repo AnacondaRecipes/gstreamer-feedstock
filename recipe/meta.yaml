@@ -9,15 +9,17 @@ package:
 source:
   - url: https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-{{ version }}.tar.xz
     sha256: {{ sha256 }}
+    patches:
+      - patches/CVE-2019-9928_gstreamer_pull_157.patch
+      - patches/CVE-2022-1920_gstreamer_commit_cf887f1.patch
+      - patches/CVE-2022-1921_gstreamer_commit_f503caa.patch
+      - patches/CVE-2022-2122_gstreamer_commit_14d306d.patch
+      - patches/CVE-2022-1922_CVE-2022-1923_CVE-2022-1924_CVE-2022-1925_gstreamer_commit_ad60121.patch
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-{{ version }}.tar.xz
     sha256: {{ plugin_base_sha256 }}
     folder: plugins_base
-  patches:
-    - patches/CVE-2019-9928_gstreamer_pull_157.patch
-    - patches/CVE-2022-1920_gstreamer_commit_cf887f1.patch
-    - patches/CVE-2022-1921_gstreamer_commit_f503caa.patch
-    - patches/CVE-2022-2122_gstreamer_commit_14d306d.patch
-    - patches/CVE-2022-1922_CVE-2022-1923_CVE-2022-1924_CVE-2022-1925_gstreamer_commit_ad60121.patch
+    patches:
+      - patches/CVE-2019-9928_gstreamer_pull_157.patch
 
 build:
   skip: true  # [win]
