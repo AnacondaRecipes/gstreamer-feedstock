@@ -9,11 +9,6 @@ package:
 source:
   - url: https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-{{ version }}.tar.xz
     sha256: {{ sha256 }}
-    # patches:
-    #   - patches/CVE-2022-1920_gstreamer_commit_cf887f1.patch
-    #   - patches/CVE-2022-1921_gstreamer_commit_f503caa.patch
-    #   - patches/CVE-2022-1922_CVE-2022-1923_CVE-2022-1924_CVE-2022-1925_gstreamer_commit_ad60121.patch
-    #   - patches/CVE-2022-2122_gstreamer_commit_14d306d.patch
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-{{ version }}.tar.xz
     sha256: {{ plugin_base_sha256 }}
     folder: plugins_base
@@ -21,7 +16,7 @@ source:
       - patches/CVE-2019-9928_gstreamer_pull_157.patch
 
 build:
-  skip: true  # [win or osx or (linux and s390x)]
+  skip: true  # [win]
   number: 2
 
 outputs:
@@ -146,20 +141,12 @@ outputs:
         - pkg-config
         - bison
         - flex
-        - m4
-        - autoconf
-        - automake
-        - make
-        - perl
-        - libtool
-        - patch
-      host:
+        - meson
+        - ninja
         - gobject-introspection
-        - gettext                            # [osx]
-        - pcre                               # [linux]
-        - libffi                             # [linux]
-        - glib
-        - xz
+      host:
+        - gettext 0.21.0                  # [osx]
+        - glib 2.69.1
 {% endif %}
     test:
       commands:
@@ -169,7 +156,7 @@ outputs:
         - gst-typefind-1.0 --version
     about:
       summary: "Library for constructing graphs of media-handling components"
-      description:
+      description: "Library for constructing graphs of media-handling components"
       doc_source_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/docs
 
   - name: gst-plugins-base
@@ -446,26 +433,33 @@ outputs:
         - {{ cdt('libx11-devel') }}          # [linux]
         - {{ cdt('libxrender-devel') }}      # [linux]
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-        - {{ cdt('mesa-libgl-devel') }}      # [linux]
-        - {{ cdt('libdrm-devel') }}          # [linux]
+        - {{ cdt('mesa-libgl-devel') }}      # [linux and not s390x]
+        - {{ cdt('mesa-libegl-devel') }}     # [linux and not ppc64le]
+        - {{ cdt('libdrm-devel') }}          # [linux and not s390x]
         - {{ cdt('libxdamage-devel') }}      # [linux]
         - {{ cdt('libxfixes-devel') }}       # [linux]
         - {{ cdt('libxxf86vm-devel') }}      # [linux]
+        - {{ cdt('mesa-dri-drivers') }}      # [linux]
+        # These dependencies are only for cos7 platforms
+        - {{ cdt('libglvnd-glx') }}          # [linux & (ppc64le | aarch64)]
+        - {{ cdt('libglvnd') }}              # [linux & (ppc64le | aarch64)]
+        - {{ cdt('libxshmfence-devel') }}    # [linux and ppc64le]
+        - {{ cdt('mesa-khr-devel') }}        # [linux & (ppc64le | aarch64)]
+        # expat here is _only_ required for mesa-dri-drivers
+        - {{ cdt('expat') }}                 # [linux and not s390x]
+        - {{ cdt('libselinux-devel') }}      # [linux]
+        - {{ cdt('mesa-libgbm') }}           # [linux and x86_64]
         - pkg-config
-        - m4
-        - autoconf
-        - automake
-        - make
-        - perl
-        - libtool # [not win]
+        - meson
+        - ninja
+        - gobject-introspection
       host:
         - {{ pin_subpackage('gstreamer') }}
-        - glib
-        - zlib
-        - gettext                            # [osx]
-        - libxcb                             # [linux]
-        - pthread-stubs                      # [linux]
-        - xz
+        - glib 2.69.1
+        - zlib 1.2.11
+        - libxcb 1.14                          # [linux]
+        - pthread-stubs 0.3                    # [linux]
+        # - xz 
       run:
         - {{ pin_compatible('gstreamer') }}
 {% endif %}
@@ -497,11 +491,14 @@ outputs:
 
 about:
   home: https://gstreamer.freedesktop.org/
-  license: LGPL-2.0-only
+  license: LGPL-2.1-or-later
   license_family: LGPL
-  license_url: https://gstreamer.freedesktop.org/documentation/plugin-development/appendix/licensing-advisory.html
-  description: "GStreamer is a framework for creating streaming media applications."
-  summary: "GStreamer is a framework for creating streaming media applications."
+  license_file: COPYING
+  summary: GStreamer is a framework for streaming media.
+  description: |
+    GStreamer is a library for constructing graphs of media-handling components. 
+    The applications it supports range from simple Ogg/Vorbis playback, audio/video 
+    streaming to complex audio (mixing) and video (non-linear editing) processing.
   doc_url: https://gstreamer.freedesktop.org/documentation/
   dev_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/
 
