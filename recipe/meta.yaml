@@ -27,7 +27,7 @@ outputs:
       run_exports:
         # remove symbols at .90 patch releases just before minor versions?
         #    https://abi-laboratory.pro/tracker/timeline/gstreamer/
-        - {{ pin_subpackage('gstreamer', max_pin='x.x.x') }}
+        - {{ pin_subpackage('gstreamer', max_pin='x.x') }}
 
     requirements:
 {% if target_platform == 'linux-64' %}
@@ -166,7 +166,7 @@ outputs:
       run_exports:
         # remove symbols at .90 patch releases just before minor versions?
         #    https://abi-laboratory.pro/tracker/timeline/gstreamer/
-        - {{ pin_subpackage('gst-plugins-base', max_pin='x.x.x') }}
+        - {{ pin_subpackage('gst-plugins-base', max_pin='x.x') }}
 
     requirements:
 {% if target_platform == 'linux-64' %}
