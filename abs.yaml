@@ -7,9 +7,9 @@ build_parameters:
 
 upload_channels:
   - _lts-preview
-  - paulyim/label/lts_backports
+  - paulyim
 channels:
   - _lts-preview
-  - paulyim/label/lts_backports
+  - paulyim
 upload_without_merge: true
 aggregate_check: false
