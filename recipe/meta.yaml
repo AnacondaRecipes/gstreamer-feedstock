@@ -454,14 +454,14 @@ outputs:
         - ninja
         - gobject-introspection
       host:
-        - {{ pin_subpackage('gstreamer') }}
+        - {{ pin_subpackage('gstreamer', max_pin='x.x') }}
         - glib 2.69.1
         - zlib 1.2.11
         - libxcb 1.14                          # [linux]
         - pthread-stubs 0.3                    # [linux]
         # - xz 
       run:
-        - {{ pin_compatible('gstreamer') }}
+        - {{ pin_compatible('gstreamer', max_pin='x.x') }}
 {% endif %}
 
     test:
