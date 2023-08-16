@@ -7,9 +7,9 @@ build_parameters:
 
 upload_channels:
   - _lts-preview
-  - paulyim
+  - c3i_test2
 channels:
   - _lts-preview
-  - paulyim
+  - c3i_test2
 upload_without_merge: true
 aggregate_check: false
