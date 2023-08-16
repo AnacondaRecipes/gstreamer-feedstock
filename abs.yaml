@@ -10,5 +10,5 @@ upload_channels:
 channels:
   - _lts-preview
   - paulyim/label/lts_backports
-upload_without_merge: false
+# upload_without_merge: false
 aggregate_check: false
