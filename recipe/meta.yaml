@@ -16,7 +16,7 @@ source:
     folder: plugins_good
 
 build:
-  number: 0
+  number: 1
   # Installing and using plugins in the conda environment isn't working for s390x, due to build options not correctly
   # translating into the location of a helper library at runtime, for this platform.
   # Audio/video tools aren't needed on s390x anyway.
@@ -49,7 +49,7 @@ outputs:
         - gobject-introspection
       host:
         - gettext 0.21.0                    # [not win]
-        - glib 2.69.1
+        - glib {{ glib }}
       run:
         - {{ pin_compatible('gettext') }}   # [not win]
     test:
@@ -113,7 +113,7 @@ outputs:
         - gobject-introspection
       host:
         - {{ pin_subpackage('gstreamer', exact=True) }}
-        - glib 2.69.1
+        - glib {{ glib }}
         - zlib
         - gettext 0.21.0                     # [not win]
         - libxcb  1.14.0                     # [linux]
@@ -200,7 +200,7 @@ outputs:
       host:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         - {{ pin_subpackage('gst-plugins-base', exact=True) }}
-        - glib 2.69.1
+        - glib {{ glib }}
         - libxcb 1.14.0                      # [linux]
         - lame 3.100                         # [linux]
         - mpg123 1.30.0                      # [(linux and x86_64) or osx]
