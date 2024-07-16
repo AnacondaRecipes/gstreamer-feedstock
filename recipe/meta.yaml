@@ -204,6 +204,8 @@ outputs:
         - libxcb 1.14.0                      # [linux]
         - lame 3.100                         # [linux]
         - mpg123 1.30.0                      # [(linux and x86_64) or osx]
+        - openssl {{ openssl }}
+        - bzip2 {{ bzip2 }}
       run:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         - {{ pin_subpackage('gst-plugins-base', exact=True) }}
