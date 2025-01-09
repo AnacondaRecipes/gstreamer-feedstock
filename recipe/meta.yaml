@@ -1,4 +1,4 @@
-{% set version = "1.22.3" %}
+{% set version = "1.24.7" %}
 {% set posix = 'm2-' if win else '' %}
 
 package:
@@ -7,16 +7,16 @@ package:
 
 source:
   - url: https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-{{ version }}.tar.xz
-    sha256: 9ffeab95053f9f6995eb3b3da225e88f21c129cd60da002d3f795db70d6d5974
+    sha256: c0e75b124c52bb7a0c3dcdb734b2ad260ea7286a8745cf2ea629d4c849e6a958
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-{{ version }}.tar.xz
-    sha256: 1c596289a0d4207380233eba8c36a932c4d1aceba19932937d9b57c24cef89f3
+    sha256: 1528d1746a393299f5ac17ebf13a32a660202f1e29d0a852a2250f6a059a2fda
     folder: plugins_base
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-{{ version }}.tar.xz
-    sha256: af81154b3a2ef3f4d2feba395f25696feea6fd13ec62c92d3c7a973470710273
+    sha256: 759acb11e6de8373ff8cbb5e7ab8eb9a38631be81cf24220267b001eb55593c1
     folder: plugins_good
 
 build:
-  number: 1
+  number: 0
   # Installing and using plugins in the conda environment isn't working for s390x, due to build options not correctly
   # translating into the location of a helper library at runtime, for this platform.
   # Audio/video tools aren't needed on s390x anyway.
@@ -41,6 +41,7 @@ outputs:
     requirements:
       build:
         - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
         - pkg-config
         - {{ posix }}bison
         - {{ posix }}flex

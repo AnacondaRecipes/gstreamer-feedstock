@@ -3,6 +3,8 @@
 mkdir build
 pushd build
 
+# Make sure .gir files in $PREFIX are found
+export XDG_DATA_DIRS=${XDG_DATA_DIRS}:$PREFIX/share:$BUILD_PREFIX/share
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig:$BUILD_PREFIX/lib/pkgconfig
 
 
