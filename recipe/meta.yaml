@@ -112,7 +112,9 @@ outputs:
         - meson
         - ninja
         - gobject-introspection
-        - setuptools <74
+        # setuptools >= 65.0.0 is lacking the msvccompiler module in distutils.
+        # https://github.com/pypa/setuptools/pull/3505
+        - setuptools <65
       host:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         - glib {{ glib }}
