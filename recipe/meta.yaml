@@ -40,6 +40,9 @@ outputs:
         - $RPATH/libpthread.so.0  # [linux]
     requirements:
       build:
+        # setuptools >= 65.0.0 is lacking the msvccompiler module in distutils.
+        # https://github.com/pypa/setuptools/pull/3505
+        - setuptools <65
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - pkg-config
@@ -87,6 +90,9 @@ outputs:
         - $RPATH/libpthread.so.0  # [linux]
     requirements:
       build:
+        # setuptools >= 65.0.0 is lacking the msvccompiler module in distutils.
+        # https://github.com/pypa/setuptools/pull/3505
+        - setuptools <65
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - {{ cdt('libxau-devel') }}          # [linux]
@@ -112,9 +118,6 @@ outputs:
         - meson
         - ninja
         - gobject-introspection
-        # setuptools >= 65.0.0 is lacking the msvccompiler module in distutils.
-        # https://github.com/pypa/setuptools/pull/3505
-        - setuptools <65
       host:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         - glib {{ glib }}
@@ -177,6 +180,9 @@ outputs:
         - $RPATH/libcrypto.1.1.dylib # [osx]
     requirements:
       build:
+        # setuptools >= 65.0.0 is lacking the msvccompiler module in distutils.
+        # https://github.com/pypa/setuptools/pull/3505
+        - setuptools <65
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - {{ cdt('libxau-devel') }}          # [linux]
