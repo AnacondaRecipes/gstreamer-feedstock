@@ -12,7 +12,7 @@ source:
     sha256: 98572c1f8b710e52673e250cd96e4f2660d79bd66aa172c5dde5f690c1231e1d
     folder: plugins_base
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-{{ version }}.tar.xz
-    sha256: 98572c1f8b710e52673e250cd96e4f2660d79bd66aa172c5dde5f690c1231e1d
+    sha256: 94bf3b5118dd4213af66048faac830569cc9a94a8c8e59e8a6d33b315f518462
     folder: plugins_good
 
 build:
