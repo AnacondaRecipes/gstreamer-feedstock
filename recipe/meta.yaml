@@ -112,6 +112,7 @@ outputs:
         - meson
         - ninja
         - gobject-introspection
+        - setuptools <74
       host:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         - glib {{ glib }}
