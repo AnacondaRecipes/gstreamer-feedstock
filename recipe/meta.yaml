@@ -44,7 +44,6 @@ outputs:
         # https://github.com/pypa/setuptools/pull/3505
         - setuptools <65
         - {{ compiler('c') }}
-        - {{ compiler('cxx') }}
         - pkg-config
         - {{ posix }}bison
         - {{ posix }}flex
