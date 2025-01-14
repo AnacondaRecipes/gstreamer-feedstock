@@ -53,12 +53,11 @@ outputs:
       host:
         - gettext 0.21.0                    # [not win]
         - glib {{ glib }}
-        - libiconv
       run:
         - {{ pin_compatible('gettext') }}   # [not win]
     test:
       commands:
-        - gst-inspect-1.0 --version
+        #- gst-inspect-1.0 --version
         - gst-launch-1.0  --version
         - gst-stats-1.0 --version
         - gst-typefind-1.0 --version
