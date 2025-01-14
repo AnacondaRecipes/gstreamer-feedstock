@@ -53,7 +53,7 @@ outputs:
       host:
         - gettext 0.21.0                    # [not win]
         - glib {{ glib }}
-        - libintl-devel  # [not linux]
+        - libiconv
       run:
         - {{ pin_compatible('gettext') }}   # [not win]
     test:
