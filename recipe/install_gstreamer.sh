@@ -15,6 +15,7 @@ meson --prefix=${PREFIX} \
       -Dptp-helper-permissions=none \
       -Dexamples=disabled \
       -Dtests=disabled \
+      -Dpackage-origin=https://github.com/AnacondaRecipes/gstreamer-feedstock \
       --wrap-mode=nofallback \
       ..
 ninja -j${CPU_COUNT}

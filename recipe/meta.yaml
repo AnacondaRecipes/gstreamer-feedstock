@@ -1,5 +1,5 @@
-{% set version = "1.24.11" %}
-{% set posix = 'm2-' if win else '' %}
+{% set version = "1.24.12" %}
+{% set posix = 'msys2-' if win else '' %}
 
 package:
   name: gstreamer_and_plugins
@@ -7,55 +7,43 @@ package:
 
 source:
   - url: https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-{{ version }}.tar.xz
-    sha256: 093a379602a250d5cd33b88e723757c80198317efde33893edf3c87b6e53b907
+    sha256: b3522d1b4fe174fff3b3c7f0603493e2367bd1c43f5804df15b634bd22b1036f
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-{{ version }}.tar.xz
-    sha256: 98572c1f8b710e52673e250cd96e4f2660d79bd66aa172c5dde5f690c1231e1d
+    sha256: f6efbaa8fea8d00bc380bccca76a530527b1f083e8523eafb3e9b1e18bc653d3
     folder: plugins_base
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-{{ version }}.tar.xz
-    sha256: 94bf3b5118dd4213af66048faac830569cc9a94a8c8e59e8a6d33b315f518462
+    sha256: d0e66e2f935d1575f6adbef7d0a2b3faba7360344383c51bf0233b39e0489a64
     folder: plugins_good
 
 build:
   number: 0
-  # Installing and using plugins in the conda environment isn't working for s390x, due to build options not correctly
-  # translating into the location of a helper library at runtime, for this platform.
-  # Audio/video tools aren't needed on s390x anyway.
-  skip: True # [linux and s390x]
 
 outputs:
   - name: gstreamer
     script: install_gstreamer.sh  # [unix]
     script: install_gstreamer.bat  # [win]
     build:
-      ignore_run_exports:        # [unix]
-        - gettext                # [unix]
       activate_in_script: true
       run_exports:
         # remove symbols at .90 patch releases just before minor versions?
         #    https://abi-laboratory.pro/tracker/timeline/gstreamer/
         - {{ pin_subpackage('gstreamer', max_pin='x.x') }}
-      missing_dso_whitelist:  # [linux]
-        - $RPATH/libc.so.6  # [linux]
-        - $RPATH/libm.so.6  # [linux]
-        - $RPATH/libpthread.so.0  # [linux]
     requirements:
       build:
-        # setuptools >= 65.0.0 is lacking the msvccompiler module in distutils.
-        # https://github.com/pypa/setuptools/pull/3505
-        - setuptools <65
         - {{ compiler('c') }}
-        - {{ compiler('cxx') }}
         - pkg-config
         - {{ posix }}bison
         - {{ posix }}flex
         - meson
-        - ninja
+        - ninja-base
         - gobject-introspection
       host:
-        - gettext 0.21.0                    # [not win]
+        - gettext 0.21.0  # [unix]
         - glib {{ glib }}
       run:
-        - {{ pin_compatible('gettext') }}   # [not win]
+        # bounds through run_exports
+        - gettext   # [unix]
+        - libglib
     test:
       commands:
         - gst-inspect-1.0 --version
@@ -73,28 +61,14 @@ outputs:
     script: install_base_plugins.sh  # [unix]
     script: install_base_plugins.bat  # [win]
     build:
-      ignore_run_exports:
-        - gettext                    # [not win]
-        - libpng                     # [linux and ppc64le]
-        - libxcb                     # [linux and ppc64le]
-        - libvorbis
-        - libopus                    # [unix]
       activate_in_script: true
       run_exports:
         # remove symbols at .90 patch releases just before minor versions?
         #    https://abi-laboratory.pro/tracker/timeline/gstreamer/
-        - {{ pin_subpackage('gst-plugins-base', max_pin='x.x') }}
-      missing_dso_whitelist:  # [linux]
-        - $RPATH/libc.so.6  # [linux]
-        - $RPATH/libm.so.6  # [linux]
-        - $RPATH/libpthread.so.0  # [linux]
+        - {{ pin_subpackage('gst-plugins-base', max_pin='x.x') }}]
     requirements:
       build:
-        # setuptools >= 65.0.0 is lacking the msvccompiler module in distutils.
-        # https://github.com/pypa/setuptools/pull/3505
-        - setuptools <65
         - {{ compiler('c') }}
-        - {{ compiler('cxx') }}
         - {{ cdt('libxau-devel') }}          # [linux]
         - {{ cdt('libxext-devel') }}         # [linux]
         - {{ cdt('libx11-devel') }}          # [linux]
@@ -107,35 +81,39 @@ outputs:
         - {{ cdt('libxxf86vm-devel') }}      # [linux]
         - {{ cdt('mesa-dri-drivers') }}      # [linux]
         # These dependencies are only for cos7 platforms
-        - {{ cdt('libglvnd-glx') }}          # [linux and (ppc64le | aarch64)]
-        - {{ cdt('libglvnd') }}              # [linux and (ppc64le | aarch64)]
-        - {{ cdt('libxshmfence-devel') }}    # [linux and ppc64le]
-        - {{ cdt('mesa-khr-devel') }}        # [linux and (ppc64le | aarch64)]
+        - {{ cdt('libglvnd-glx') }}          # [linux and aarch64]
+        - {{ cdt('libglvnd') }}              # [linux and aarch64]
+        - {{ cdt('mesa-khr-devel') }}        # [linux and aarch64]
         # expat here is _only_ required for mesa-dri-drivers
         - {{ cdt('expat') }}                 # [linux]
         - {{ cdt('libselinux-devel') }}      # [linux]
         - pkg-config
         - meson
-        - ninja
+        - ninja-base
         - gobject-introspection
       host:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         - glib {{ glib }}
-        - zlib
-        - gettext 0.21.0                     # [not win]
-        - libxcb  1.14.0                     # [linux]
-        - libpng  1.6.37                     # [unix]
-        #- alsa-lib                           # [linux]
+        - zlib {{ zlib }}
+        - gettext 0.21.0                     # [unix]
+        - libxcb  1.15                       # [linux]
+        - libpng  {{ libpng }}
+        - jpeg    {{ jpeg }}
         - libopus 1.3                        # [unix]
         - libvorbis 1.3.7
       run:
         - {{ pin_subpackage('gstreamer', exact=True) }}
-        - {{ pin_compatible('libpng', max_pin='x.x') }} # [unix]
         - {{ pin_compatible('libogg') }}
-        - {{ pin_compatible('gettext') }}               # [unix]
-        - {{ pin_compatible('zlib', max_pin='x.x.x') }}
-        - {{ pin_compatible('libvorbis') }}
-        - {{ pin_compatible('libopus') }}               # [unix]
+        # through run_exports
+        - libglib
+        - zlib
+        - gettext   # [unix]
+        - libxcb    # [linux]
+        - libpng
+        - jpeg
+        - libopus   # [unix]
+        - libvorbis
+        - libogg
     test:
       commands:
         - test -f $PREFIX/lib/libgstallocators-1.0${SHLIB_EXT}  # [unix]
@@ -166,25 +144,12 @@ outputs:
     script: install_good_plugins.sh  # [unix]
     script: install_good_plugins.bat  # [win]
     build:
-      ignore_run_exports:
-        - libxcb                             # [linux]
       activate_in_script: true
       run_exports:
         - {{ pin_subpackage('gst-plugins-good', max_pin='x.x') }}
-      missing_dso_whitelist:
-        - $RPATH/libc.so.6  # [linux]
-        - $RPATH/libm.so.6  # [linux]
-        - $RPATH/libpthread.so.0  # [linux]
-        - $RPATH/libdl.so.2 #[linux]
-        - $RPATH/libcrypto.so.1.1 # [linux]
-        - $RPATH/libcrypto.1.1.dylib # [osx]
     requirements:
       build:
-        # setuptools >= 65.0.0 is lacking the msvccompiler module in distutils.
-        # https://github.com/pypa/setuptools/pull/3505
-        - setuptools <65
         - {{ compiler('c') }}
-        - {{ compiler('cxx') }}
         - {{ cdt('libxau-devel') }}          # [linux]
         - {{ cdt('libxext-devel') }}         # [linux]
         - {{ cdt('libx11-devel') }}          # [linux]
@@ -197,34 +162,40 @@ outputs:
         - {{ cdt('libxxf86vm-devel') }}      # [linux]
         - {{ cdt('mesa-dri-drivers') }}      # [linux]
         # These dependencies are only for cos7 platforms
-        - {{ cdt('libglvnd-glx') }}          # [linux and (ppc64le | aarch64)]
-        - {{ cdt('libglvnd') }}              # [linux and (ppc64le | aarch64)]
-        - {{ cdt('libxshmfence-devel') }}    # [linux and ppc64le]
-        - {{ cdt('mesa-khr-devel') }}        # [linux and (ppc64le | aarch64)]
+        - {{ cdt('libglvnd-glx') }}          # [linux and aarch64]
+        - {{ cdt('libglvnd') }}              # [linux and aarch64]
+        - {{ cdt('mesa-khr-devel') }}        # [linux and aarch64]
         # expat here is _only_ required for mesa-dri-drivers
         - {{ cdt('expat') }}                 # [linux]
         - {{ cdt('libselinux-devel') }}      # [linux]
         - pkg-config
         - meson
-        - ninja
+        - ninja-base
       host:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         - {{ pin_subpackage('gst-plugins-base', exact=True) }}
-        - glib {{ glib }}
-        - libxcb 1.14.0                      # [linux]
-        - lame 3.100                         # [linux]
-        - mpg123 1.30.0                      # [(linux and x86_64) or osx]
-        - libpng  1.6.37                     # [unix]
-        - openssl {{ openssl }}
-        - bzip2 {{ bzip2 }}
-      run:
+        - glib {{ glib }}        
+        - zlib {{ zlib }}
+        - gettext 0.21.0                     # [unix]
+        - libxcb 1.15                        # [linux]
+        - lame 3.100                         # [unix]
+        - mpg123 1.30.0                      # [unix]
+        - libpng  {{ libpng }}
+        - bzip2   {{ bzip2 }}
+        - jpeg    {{ jpeg }}
+      run:        
         - {{ pin_subpackage('gstreamer', exact=True) }}
         - {{ pin_subpackage('gst-plugins-base', exact=True) }}
-        - {{ pin_compatible('gettext') }}    # [osx]
-        - {{ pin_compatible('zlib', max_pin='x.x.x') }}
-        - {{ pin_compatible('libpng', max_pin='x.x') }} # [unix]
         - {{ pin_compatible('mpg123', max_pin='x.x') }} # [unix]
-        - libxml2 >=2.8
+        # through run_exports
+        - libglib
+        - zlib
+        - gettext # [unix]
+        - libxcb  # [linux]
+        - lame    # [unix]
+        - libpng
+        - bzip2
+        - jpeg
     test:
       commands:
         - test -f $PREFIX/lib/gstreamer-1.0/libgstalpha${SHLIB_EXT}  # [unix]

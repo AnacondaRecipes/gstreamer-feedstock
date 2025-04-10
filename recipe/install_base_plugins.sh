@@ -11,6 +11,7 @@ meson_options=(
       -Dintrospection=enabled
       -Dexamples=disabled
       -Dtests=disabled
+      -Dpackage-origin=https://github.com/AnacondaRecipes/gstreamer-feedstock
 )
 
 if [[ “${target_platform}“ == *ppc64le* ]]; then

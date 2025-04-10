@@ -10,6 +10,7 @@ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig:$BUILD_PREFIX/lib/
 meson_options=(
       -Dexamples=disabled
       -Dtests=disabled
+      -Dpackage-origin=https://github.com/AnacondaRecipes/gstreamer-feedstock
 )
 
 if [ $(uname) = "Linux" ] ; then

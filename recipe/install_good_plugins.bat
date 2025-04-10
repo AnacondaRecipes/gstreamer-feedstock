@@ -9,7 +9,7 @@ set "LIBRARY_PREFIX_M=%LIBRARY_PREFIX:\=/%"
 
 cd plugins_good
 
-%BUILD_PREFIX%\Scripts\meson.exe setup builddir --wrap-mode=nofallback --buildtype=release --prefix=%LIBRARY_PREFIX_M% --backend=ninja -Dexamples=disabled -Dtests=disabled
+%BUILD_PREFIX%\Scripts\meson.exe setup builddir --wrap-mode=nofallback --buildtype=release --prefix=%LIBRARY_PREFIX_M% --backend=ninja -Dexamples=disabled -Dtests=disabled -Dpackage-origin=https://github.com/AnacondaRecipes/gstreamer-feedstock
 if errorlevel 1 exit 1
 
 ninja -v -C builddir -j %CPU_COUNT%
