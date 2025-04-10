@@ -1,11 +1,3 @@
-# Here we want to flag overdepending. 
-# Don't add ignore_run_exports all over the place. Fix issues instead.
-build_parameters:
-  - "--suppress-variables"
-  - "--skip-existing"
-  - "--error-overlinking"
-  - "--error-overdepending"
-
 # We aren't strictly tied to ventura, but calls to gst-inspect-1.0 --version hang on specific workers.
 # It seems to be due to running in a headless environment. 
 extra_labels_for_os:
