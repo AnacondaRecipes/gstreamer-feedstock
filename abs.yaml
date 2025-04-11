@@ -3,3 +3,6 @@
 extra_labels_for_os:
   osx-64: [ventura]
   osx-arm64: [ventura]
+
+channels:
+  - https://staging.continuum.io/prefect/fs/gstreamer-orc-feedstock/pr1/3b25f8b
