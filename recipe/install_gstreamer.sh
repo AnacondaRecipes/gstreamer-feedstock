@@ -3,6 +3,8 @@
 mkdir build
 pushd build
 
+# Make sure .gir files in $PREFIX are found
+export XDG_DATA_DIRS=${XDG_DATA_DIRS}:$PREFIX/share:$BUILD_PREFIX/share
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig:$BUILD_PREFIX/lib/pkgconfig
 
 
@@ -13,6 +15,7 @@ meson --prefix=${PREFIX} \
       -Dptp-helper-permissions=none \
       -Dexamples=disabled \
       -Dtests=disabled \
+      -Dpackage-origin=https://github.com/AnacondaRecipes/gstreamer-feedstock \
       --wrap-mode=nofallback \
       ..
 ninja -j${CPU_COUNT}
