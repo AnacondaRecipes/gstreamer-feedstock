@@ -3,3 +3,6 @@
 extra_labels_for_os:
   osx-64: [ventura]
   osx-arm64: [ventura]
+
+channels:
+  - https://staging.continuum.io/prefect/fs/mesalib-feedstock/pr1/e7fea05
