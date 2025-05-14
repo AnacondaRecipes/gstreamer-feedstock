@@ -1,5 +1,5 @@
 {% set version = "1.24.12" %}
-{% set posix = "'msys2-' if win else ''" %}
+{% set posix = 'msys2-' if win else '' %}
 
 package:
   name: gstreamer_and_plugins
@@ -16,7 +16,7 @@ source:
     folder: plugins_good
 
 build:
-  number: 2
+  number: 1
 
 outputs:
   - name: gstreamer
@@ -40,28 +40,6 @@ outputs:
       host:
         - gettext 0.21.0  # [osx]
         - glib {{ glib }}
-        - xorg-libxau
-        - xorg-libxext
-        - xorg-libx11
-        - xorg-libxrender
-        - xorg-xproto
-        - libgl-devel
-        - xorg-libxdamage
-        - xorg-libxfixes
-        - xorg-libxxf86vm
-        - mesa-dri-drivers
-        - libglx
-        - xorg-libxau
-        - xorg-libxext
-        - xorg-libx11
-        - xorg-libxrender
-        - xorg-xproto
-        - libgl-devel
-        - xorg-libxdamage
-        - xorg-libxfixes
-        - xorg-libxxf86vm
-        - mesa-dri-drivers
-        - libglx
       run:
         # bounds through run_exports
         - gettext  # [osx]
@@ -78,6 +56,7 @@ outputs:
       summary: Library for constructing graphs of media-handling components
       description:
       doc_source_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/subprojects/gstreamer/docs
+
   - name: gst-plugins-base
     script: install_base_plugins.sh  # [unix]
     script: install_base_plugins.bat  # [win]
@@ -118,6 +97,28 @@ outputs:
         - libvorbis 1.3.7  # [unix]
         - libogg 1.3.5  # [unix]
         - gstreamer-orc 0.4.41
+        - xorg-libxau
+        - xorg-libxext
+        - xorg-libx11
+        - xorg-libxrender
+        - xorg-xproto
+        - libgl-devel
+        - xorg-libxdamage
+        - xorg-libxfixes
+        - xorg-libxxf86vm
+        - mesa-dri-drivers
+        - libglx
+        - xorg-libxau
+        - xorg-libxext
+        - xorg-libx11
+        - xorg-libxrender
+        - xorg-xproto
+        - libgl-devel
+        - xorg-libxdamage
+        - xorg-libxfixes
+        - xorg-libxxf86vm
+        - mesa-dri-drivers
+        - libglx
       run:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         # through run_exports
@@ -195,6 +196,28 @@ outputs:
         - libxml2 {{ libxml2 }}  # [linux]
         - openssl {{ openssl }}  # [linux]
         - gstreamer-orc 0.4.41
+        - xorg-libxau
+        - xorg-libxext
+        - xorg-libx11
+        - xorg-libxrender
+        - xorg-xproto
+        - libgl-devel
+        - xorg-libxdamage
+        - xorg-libxfixes
+        - xorg-libxxf86vm
+        - mesa-dri-drivers
+        - libglx
+        - xorg-libxau
+        - xorg-libxext
+        - xorg-libx11
+        - xorg-libxrender
+        - xorg-xproto
+        - libgl-devel
+        - xorg-libxdamage
+        - xorg-libxfixes
+        - xorg-libxxf86vm
+        - mesa-dri-drivers
+        - libglx
       run:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         - {{ pin_subpackage('gst-plugins-base', exact=True) }}
