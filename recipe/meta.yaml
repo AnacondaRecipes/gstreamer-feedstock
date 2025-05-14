@@ -69,14 +69,7 @@ outputs:
     requirements:
       build:
         - {{ compiler('c') }}
-        # These dependencies are only for cos7 platforms
-        # TODO: map CDT mesa-khr-devel to new X11 package
-        # - { cdt('mesa-khr-devel') }
-        # expat here is _only_ required for mesa-dri-drivers
-        # TODO: map CDT expat to new X11 package
-        # - { cdt('expat') }
-        # TODO: map CDT libselinux-devel to new X11 package
-        # - { cdt('libselinux-devel') }
+        # Now using modern conda-forge X11 packages
         - pkg-config
         - meson
         - ninja-base
@@ -86,7 +79,7 @@ outputs:
         - glib {{ glib }}
         - zlib {{ zlib }}
         - gettext 0.21.0  # [osx]
-        - libxcb  1.15  # [linux]
+        - libxcb  1.17  # [linux]
         - libpng  {{ libpng }}  # [unix]
         - jpeg    {{ jpeg }}  # [unix]
         - libopus 1.3  # [unix]
@@ -95,10 +88,8 @@ outputs:
         - gstreamer-orc 0.4.41
         - libdrm  # [linux]
         - libgl-devel  # [linux]
-        - libglvnd-devel  # [linux]
-        - libglx  # [linux]
-        - mesa-dri-drivers  # [linux]
-        - mesa-libgl-devel  # [linux]
+        - libegl-devel  # [linux]
+        - expat  # [linux]
         - xorg-libx11  # [linux]
         - xorg-libxau  # [linux]
         - xorg-libxdamage  # [linux]
@@ -106,6 +97,7 @@ outputs:
         - xorg-libxfixes  # [linux]
         - xorg-libxrender  # [linux]
         - xorg-libxxf86vm  # [linux]
+        - xorg-libxshmfence  # [linux]
         - xorg-xorgproto  # [linux]
       run:
         - {{ pin_subpackage('gstreamer', exact=True) }}
@@ -154,18 +146,7 @@ outputs:
     requirements:
       build:
         - {{ compiler('c') }}
-        # TODO: map CDT libdrm-devel to new X11 package
-        # - { cdt('libdrm-devel') }
-        # These dependencies are only for cos7 platforms
-        # TODO: map CDT libglvnd to new X11 package
-        # - { cdt('libglvnd') }
-        # TODO: map CDT mesa-khr-devel to new X11 package
-        # - { cdt('mesa-khr-devel') }
-        # expat here is _only_ required for mesa-dri-drivers
-        # TODO: map CDT expat to new X11 package
-        # - { cdt('expat') }
-        # TODO: map CDT libselinux-devel to new X11 package
-        # - { cdt('libselinux-devel') }
+        # Now using modern conda-forge X11 packages
         - pkg-config
         - meson
         - ninja-base
@@ -186,10 +167,8 @@ outputs:
         - gstreamer-orc 0.4.41
         - libdrm  # [linux]
         - libgl-devel  # [linux]
-        - libglvnd-devel  # [linux]
-        - libglx  # [linux]
-        - mesa-dri-drivers  # [linux]
-        - mesa-libgl-devel  # [linux]
+        - libegl-devel  # [linux]
+        - expat  # [linux]
         - xorg-libx11  # [linux]
         - xorg-libxau  # [linux]
         - xorg-libxdamage  # [linux]
@@ -197,6 +176,7 @@ outputs:
         - xorg-libxfixes  # [linux]
         - xorg-libxrender  # [linux]
         - xorg-libxxf86vm  # [linux]
+        - xorg-libxshmfence  # [linux]
         - xorg-xorgproto  # [linux]
       run:
         - {{ pin_subpackage('gstreamer', exact=True) }}
