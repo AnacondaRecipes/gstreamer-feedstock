@@ -89,16 +89,8 @@ outputs:
         - libdrm  # [linux]
         - libgl-devel  # [linux]
         - libegl-devel  # [linux]
-        - expat  # [linux]
         - xorg-libx11  # [linux]
-        - xorg-libxau  # [linux]
-        - xorg-libxdamage  # [linux]
         - xorg-libxext  # [linux]
-        - xorg-libxfixes  # [linux]
-        - xorg-libxrender  # [linux]
-        - xorg-libxxf86vm  # [linux]
-        - xorg-libxshmfence  # [linux]
-        - xorg-xorgproto  # [linux]
       run:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         # through run_exports
@@ -165,19 +157,10 @@ outputs:
         - libxml2 {{ libxml2 }}  # [linux]
         - openssl {{ openssl }}  # [linux]
         - gstreamer-orc 0.4.41
-        - libdrm  # [linux]
-        - libgl-devel  # [linux]
-        - libegl-devel  # [linux]
-        - expat  # [linux]
         - xorg-libx11  # [linux]
-        - xorg-libxau  # [linux]
         - xorg-libxdamage  # [linux]
         - xorg-libxext  # [linux]
         - xorg-libxfixes  # [linux]
-        - xorg-libxrender  # [linux]
-        - xorg-libxxf86vm  # [linux]
-        - xorg-libxshmfence  # [linux]
-        - xorg-xorgproto  # [linux]
       run:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         - {{ pin_subpackage('gst-plugins-base', exact=True) }}
