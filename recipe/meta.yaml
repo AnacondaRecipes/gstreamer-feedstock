@@ -16,7 +16,7 @@ source:
     folder: plugins_good
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: gstreamer
@@ -42,7 +42,7 @@ outputs:
         - glib {{ glib }}
       run:
         # bounds through run_exports
-        - gettext   # [osx]
+        - gettext  # [osx]
         - libglib
     test:
       commands:
@@ -69,24 +69,7 @@ outputs:
     requirements:
       build:
         - {{ compiler('c') }}
-        - {{ cdt('libxau-devel') }}          # [linux]
-        - {{ cdt('libxext-devel') }}         # [linux]
-        - {{ cdt('libx11-devel') }}          # [linux]
-        - {{ cdt('libxrender-devel') }}      # [linux]
-        - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-        - {{ cdt('mesa-libgl-devel') }}      # [linux]
-        - {{ cdt('libdrm-devel') }}          # [linux]
-        - {{ cdt('libxdamage-devel') }}      # [linux]
-        - {{ cdt('libxfixes-devel') }}       # [linux]
-        - {{ cdt('libxxf86vm-devel') }}      # [linux]
-        - {{ cdt('mesa-dri-drivers') }}      # [linux]
-        # These dependencies are only for cos7 platforms
-        - {{ cdt('libglvnd-glx') }}          # [linux and aarch64]
-        - {{ cdt('libglvnd') }}              # [linux and aarch64]
-        - {{ cdt('mesa-khr-devel') }}        # [linux and aarch64]
-        # expat here is _only_ required for mesa-dri-drivers
-        - {{ cdt('expat') }}                 # [linux]
-        - {{ cdt('libselinux-devel') }}      # [linux]
+        # Now using modern conda-forge X11 packages
         - pkg-config
         - meson
         - ninja-base
@@ -95,26 +78,31 @@ outputs:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         - glib {{ glib }}
         - zlib {{ zlib }}
-        - gettext 0.21.0        # [osx]
-        - libxcb  1.15          # [linux]
+        - gettext 0.21.0  # [osx]
+        - libxcb  1.17  # [linux]
         - libpng  {{ libpng }}  # [unix]
-        - jpeg    {{ jpeg }}    # [unix]
-        - libopus 1.3           # [unix]
-        - libvorbis 1.3.7       # [unix]
-        - libogg 1.3.5          # [unix]
+        - jpeg    {{ jpeg }}  # [unix]
+        - libopus 1.3  # [unix]
+        - libvorbis 1.3.7  # [unix]
+        - libogg 1.3.5  # [unix]
         - gstreamer-orc 0.4.41
+        - libdrm  # [linux]
+        - libgl-devel  # [linux]
+        - libegl-devel  # [linux]
+        - xorg-libx11  # [linux]
+        - xorg-libxext  # [linux]
       run:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         # through run_exports
         - libglib
         - zlib
-        - gettext   # [osx]
-        - libxcb    # [linux]
-        - libpng    # [unix]
-        - jpeg      # [unix]
-        - libopus   # [unix]
-        - libvorbis # [unix]
-        - libogg    # [unix]
+        - gettext  # [osx]
+        - libxcb  # [linux]
+        - libpng  # [unix]
+        - jpeg  # [unix]
+        - libopus  # [unix]
+        - libvorbis  # [unix]
+        - libogg  # [unix]
         - gstreamer-orc
     test:
       commands:
@@ -133,7 +121,6 @@ outputs:
         - if not exist %LIBRARY_BIN%\\gstallocators-1.0-0.dll exit 1  # [win]
         - if not exist %LIBRARY_LIB%\\girepository-1.0\\GstVideo-1.0.typelib exit 1  # [win]
         - gst-inspect-1.0 --plugin volume
-
     about:
       summary: GStreamer Base Plug-ins
       description: |
@@ -141,7 +128,6 @@ outputs:
         GStreamer plug-ins and elements, spanning the range of possible types of
         elements one would want to write for GStreamer.
       doc_source_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/subprojects/gst-plugins-base/docs
-
   - name: gst-plugins-good
     script: install_good_plugins.sh  # [unix]
     script: install_good_plugins.bat  # [win]
@@ -152,56 +138,43 @@ outputs:
     requirements:
       build:
         - {{ compiler('c') }}
-        - {{ cdt('libxau-devel') }}          # [linux]
-        - {{ cdt('libxext-devel') }}         # [linux]
-        - {{ cdt('libx11-devel') }}          # [linux]
-        - {{ cdt('libxrender-devel') }}      # [linux]
-        - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-        - {{ cdt('mesa-libgl-devel') }}      # [linux]
-        - {{ cdt('libdrm-devel') }}          # [linux]
-        - {{ cdt('libxdamage-devel') }}      # [linux]
-        - {{ cdt('libxfixes-devel') }}       # [linux]
-        - {{ cdt('libxxf86vm-devel') }}      # [linux]
-        - {{ cdt('mesa-dri-drivers') }}      # [linux]
-        # These dependencies are only for cos7 platforms
-        - {{ cdt('libglvnd-glx') }}          # [linux and aarch64]
-        - {{ cdt('libglvnd') }}              # [linux and aarch64]
-        - {{ cdt('mesa-khr-devel') }}        # [linux and aarch64]
-        # expat here is _only_ required for mesa-dri-drivers
-        - {{ cdt('expat') }}                 # [linux]
-        - {{ cdt('libselinux-devel') }}      # [linux]
+        # Now using modern conda-forge X11 packages
         - pkg-config
         - meson
         - ninja-base
       host:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         - {{ pin_subpackage('gst-plugins-base', exact=True) }}
-        - glib {{ glib }}        
+        - glib {{ glib }}
         - zlib {{ zlib }}
-        - gettext 0.21.0                     # [osx]
-        - lame 3.100                         # [unix]
-        - mpg123 1.30.0                      # [unix]
+        - gettext 0.21.0  # [osx]
+        - lame 3.100  # [unix]
+        - mpg123 1.30.0  # [unix]
         - libpng  {{ libpng }}
-        - bzip2   {{ bzip2 }}                # [unix]
+        - bzip2   {{ bzip2 }}  # [unix]
         - jpeg    {{ jpeg }}
         # libxml2 and openssl for libgstadaptivedemux2 - on osx libsoup is required.
-        - libxml2 {{ libxml2 }}              # [linux]
-        - openssl {{ openssl }}              # [linux]
+        - libxml2 {{ libxml2 }}  # [linux]
+        - openssl {{ openssl }}  # [linux]
         - gstreamer-orc 0.4.41
-      run:        
+        - xorg-libx11  # [linux]
+        - xorg-libxdamage  # [linux]
+        - xorg-libxext  # [linux]
+        - xorg-libxfixes  # [linux]
+      run:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         - {{ pin_subpackage('gst-plugins-base', exact=True) }}
-        - {{ pin_compatible('mpg123', max_pin='x.x') }} # [unix]
+        - {{ pin_compatible('mpg123', max_pin='x.x') }}  # [unix]
         # through run_exports
         - libglib
         - zlib
-        - gettext # [osx]
-        - lame    # [unix]
+        - gettext  # [osx]
+        - lame  # [unix]
         - libpng
-        - bzip2   # [unix]
+        - bzip2  # [unix]
         - jpeg
-        - libxml2 # [linux]
-        - openssl # [linux]
+        - libxml2  # [linux]
+        - openssl  # [linux]
         - gstreamer-orc
     test:
       commands:
