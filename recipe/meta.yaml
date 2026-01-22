@@ -1,4 +1,4 @@
-{% set version = "1.24.12" %}
+{% set version = "1.26.10" %}
 {% set posix = 'msys2-' if win else '' %}
 
 package:
@@ -7,16 +7,16 @@ package:
 
 source:
   - url: https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-{{ version }}.tar.xz
-    sha256: b3522d1b4fe174fff3b3c7f0603493e2367bd1c43f5804df15b634bd22b1036f
+    sha256: d7f20bec75edeb8677662926c33e987da64a42616c24fc3353b9ad44ed750cd6
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-{{ version }}.tar.xz
-    sha256: f6efbaa8fea8d00bc380bccca76a530527b1f083e8523eafb3e9b1e18bc653d3
+    sha256: 1c1531dd8f2d480c89c57b08a930545a3375077391789762e40e490cdbbf03fd
     folder: plugins_base
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-{{ version }}.tar.xz
-    sha256: d0e66e2f935d1575f6adbef7d0a2b3faba7360344383c51bf0233b39e0489a64
+    sha256: 7beacb5daba3c6751ebc1c85017d9b1d6de64e24798125932c73c8b1dbeb3bc9
     folder: plugins_good
 
 build:
-  number: 1
+  number: 0
 
 outputs:
   - name: gstreamer
@@ -30,6 +30,7 @@ outputs:
         - {{ pin_subpackage('gstreamer', max_pin='x.x') }}
     requirements:
       build:
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
         - pkg-config
         - {{ posix }}bison
@@ -38,14 +39,11 @@ outputs:
         - ninja-base
         - gobject-introspection
       host:
-        - gettext 0.21.0  # [osx]
+        - gettext {{ gettext }}  # [osx]
         - glib {{ glib }}
-      run:
-        # bounds through run_exports
-        - gettext  # [osx]
-        - libglib
     test:
       commands:
+        # Tests hang on CI on osx platform but passes locally
         - gst-inspect-1.0 --version
         - gst-launch-1.0  --version
         - gst-stats-1.0 --version
@@ -68,6 +66,7 @@ outputs:
         - {{ pin_subpackage('gst-plugins-base', max_pin='x.x') }}
     requirements:
       build:
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
         # Now using modern conda-forge X11 packages
         - pkg-config
@@ -78,48 +77,38 @@ outputs:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         - glib {{ glib }}
         - zlib {{ zlib }}
-        - gettext 0.21.0  # [osx]
-        - libxcb  1.17  # [linux]
-        - libpng  {{ libpng }}  # [unix]
-        - jpeg    {{ jpeg }}  # [unix]
-        - libopus 1.3  # [unix]
-        - libvorbis 1.3.7  # [unix]
-        - libogg 1.3.5  # [unix]
-        - gstreamer-orc 0.4.41
-        - libdrm  # [linux]
-        - libgl-devel  # [linux]
-        - libegl-devel  # [linux]
-        - xorg-libx11  # [linux]
-        - xorg-libxext  # [linux]
+        - gstreamer-orc 0.4.42
+        - libpng {{ libpng }}              # [unix]
+        - jpeg {{ jpeg }}                  # [unix]
+        - libopus {{ libopus }}            # [unix]
+        - libvorbis {{ libvorbis }}        # [unix]
+        - libogg {{ libogg }}              # [unix]
+        - libxcb {{ libxcb }}              # [linux]
+        - libdrm {{ libdrm }}              # [linux]
+        - libgl-devel {{ libgl }}          # [linux]
+        - libegl-devel {{ libegl }}        # [linux]
+        - xorg-libx11 {{ xorg_libx11 }}    # [linux]
+        - xorg-libxext {{ xorg_libxext }}  # [linux]
+        - gettext {{ gettext }}            # [osx]
       run:
         - {{ pin_subpackage('gstreamer', exact=True) }}
-        # through run_exports
-        - libglib
-        - zlib
-        - gettext  # [osx]
-        - libxcb  # [linux]
-        - libpng  # [unix]
-        - jpeg  # [unix]
-        - libopus  # [unix]
-        - libvorbis  # [unix]
-        - libogg  # [unix]
-        - gstreamer-orc
     test:
       commands:
         - test -f $PREFIX/lib/libgstallocators-1.0${SHLIB_EXT}  # [unix]
-        - test -f $PREFIX/lib/libgstapp-1.0${SHLIB_EXT}  # [unix]
-        - test -f $PREFIX/lib/libgstaudio-1.0${SHLIB_EXT}  # [unix]
-        - test -f $PREFIX/lib/libgstfft-1.0${SHLIB_EXT}  # [unix]
-        - test -f $PREFIX/lib/libgstpbutils-1.0${SHLIB_EXT}  # [unix]
-        - test -f $PREFIX/lib/libgstriff-1.0${SHLIB_EXT}  # [unix]
-        - test -f $PREFIX/lib/libgstrtp-1.0${SHLIB_EXT}  # [unix]
-        - test -f $PREFIX/lib/libgstrtsp-1.0${SHLIB_EXT}  # [unix]
-        - test -f $PREFIX/lib/libgstsdp-1.0${SHLIB_EXT}  # [unix]
-        - test -f $PREFIX/lib/libgsttag-1.0${SHLIB_EXT}  # [unix]
-        - test -f $PREFIX/lib/libgstvideo-1.0${SHLIB_EXT}  # [unix]
-        - test -f $PREFIX/lib/girepository-1.0/GstVideo-1.0.typelib  # [unix]
+        - test -f $PREFIX/lib/libgstapp-1.0${SHLIB_EXT}         # [unix]
+        - test -f $PREFIX/lib/libgstaudio-1.0${SHLIB_EXT}       # [unix]
+        - test -f $PREFIX/lib/libgstfft-1.0${SHLIB_EXT}         # [unix]
+        - test -f $PREFIX/lib/libgstpbutils-1.0${SHLIB_EXT}     # [unix]
+        - test -f $PREFIX/lib/libgstriff-1.0${SHLIB_EXT}        # [unix]
+        - test -f $PREFIX/lib/libgstrtp-1.0${SHLIB_EXT}         # [unix]
+        - test -f $PREFIX/lib/libgstrtsp-1.0${SHLIB_EXT}        # [unix]
+        - test -f $PREFIX/lib/libgstsdp-1.0${SHLIB_EXT}         # [unix]
+        - test -f $PREFIX/lib/libgsttag-1.0${SHLIB_EXT}         # [unix]
+        - test -f $PREFIX/lib/libgstvideo-1.0${SHLIB_EXT}       # [unix]
+        - test -f $PREFIX/lib/girepository-1.0/GstVideo-1.0.typelib   # [unix]
         - if not exist %LIBRARY_BIN%\\gstallocators-1.0-0.dll exit 1  # [win]
         - if not exist %LIBRARY_LIB%\\girepository-1.0\\GstVideo-1.0.typelib exit 1  # [win]
+        # Test hangs on CI on osx platform but passes locally
         - gst-inspect-1.0 --plugin volume
     about:
       summary: GStreamer Base Plug-ins
@@ -137,6 +126,7 @@ outputs:
         - {{ pin_subpackage('gst-plugins-good', max_pin='x.x') }}
     requirements:
       build:
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
         # Now using modern conda-forge X11 packages
         - pkg-config
@@ -147,43 +137,33 @@ outputs:
         - {{ pin_subpackage('gst-plugins-base', exact=True) }}
         - glib {{ glib }}
         - zlib {{ zlib }}
-        - gettext 0.21.0  # [osx]
-        - lame 3.100  # [unix]
-        - mpg123 1.30.0  # [unix]
-        - libpng  {{ libpng }}
-        - bzip2   {{ bzip2 }}  # [unix]
-        - jpeg    {{ jpeg }}
+        - libpng {{ libpng }}
+        - jpeg {{ jpeg }}
+        - gstreamer-orc 0.4.42
+        - lame {{ lame }}                        # [unix]
+        - mpg123 1.30.0                          # [unix]
+        - bzip2 {{ bzip2 }}                      # [unix]
         # libxml2 and openssl for libgstadaptivedemux2 - on osx libsoup is required.
-        - libxml2 {{ libxml2 }}  # [linux]
-        - openssl {{ openssl }}  # [linux]
-        - gstreamer-orc 0.4.41
-        - xorg-libx11  # [linux]
-        - xorg-libxdamage  # [linux]
-        - xorg-libxext  # [linux]
-        - xorg-libxfixes  # [linux]
+        - libxml2 {{ libxml2 }}                  # [unix]
+        - openssl {{ openssl }}                  # [unix]
+        - gettext {{ gettext }}                  # [osx]
+        - xorg-libx11 {{ xorg_libx11 }}          # [linux]
+        - xorg-libxdamage {{ xorg_libxdamage }}  # [linux]
+        - xorg-libxext {{ xorg_libxext }}        # [linux]
+        - xorg-libxfixes {{ xorg_libxfixes }}    # [linux]
       run:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         - {{ pin_subpackage('gst-plugins-base', exact=True) }}
         - {{ pin_compatible('mpg123', max_pin='x.x') }}  # [unix]
-        # through run_exports
-        - libglib
-        - zlib
-        - gettext  # [osx]
-        - lame  # [unix]
-        - libpng
-        - bzip2  # [unix]
-        - jpeg
-        - libxml2  # [linux]
-        - openssl  # [linux]
-        - gstreamer-orc
     test:
       commands:
-        - test -f $PREFIX/lib/gstreamer-1.0/libgstalpha${SHLIB_EXT}  # [unix]
-        - test -f $PREFIX/lib/gstreamer-1.0/libgstdebug${SHLIB_EXT}  # [unix]
+        - test -f $PREFIX/lib/gstreamer-1.0/libgstalpha${SHLIB_EXT}     # [unix]
+        - test -f $PREFIX/lib/gstreamer-1.0/libgstdebug${SHLIB_EXT}     # [unix]
         - test -f $PREFIX/lib/gstreamer-1.0/libgstspectrum${SHLIB_EXT}  # [unix]
-        - if not exist %LIBRARY_LIB%\\gstreamer-1.0\\gstalpha.dll exit 1  # [win]
-        - if not exist %LIBRARY_LIB%\\gstreamer-1.0\\gstdebug.dll exit 1  # [win]
+        - if not exist %LIBRARY_LIB%\\gstreamer-1.0\\gstalpha.dll exit 1     # [win]
+        - if not exist %LIBRARY_LIB%\\gstreamer-1.0\\gstdebug.dll exit 1     # [win]
         - if not exist %LIBRARY_LIB%\\gstreamer-1.0\\gstspectrum.dll exit 1  # [win]
+        # Test hangs on CI on osx platform but passes locally
         - gst-inspect-1.0 --plugin alpha
     about:
       summary: GStreamer Good Plug-ins
@@ -197,7 +177,7 @@ outputs:
       doc_source_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/subprojects/gst-plugins-good/docs
 
 about:
-  home: https://gstreamer.freedesktop.org/
+  home: https://gstreamer.freedesktop.org
   summary: Library for constructing graphs of media-handling components
   license: LGPL-2.0-or-later
   license_file: COPYING
@@ -206,8 +186,8 @@ about:
     The applications it supports range from simple Ogg/Vorbis playback,
     audio/video streaming to complex audio (mixing) and video
     (non-linear editing) processing.
-  doc_url: https://gstreamer.freedesktop.org/documentation/
-  dev_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/
+  doc_url: https://gstreamer.freedesktop.org/documentation
+  dev_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree
 
 extra:
   recipe-maintainers:
