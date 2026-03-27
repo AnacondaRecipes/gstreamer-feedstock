@@ -1,4 +1,4 @@
-{% set version = "1.26.10" %}
+{% set version = "1.28.1" %}
 {% set posix = 'msys2-' if win else '' %}
 
 package:
@@ -7,12 +7,12 @@ package:
 
 source:
   - url: https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-{{ version }}.tar.xz
-    sha256: d7f20bec75edeb8677662926c33e987da64a42616c24fc3353b9ad44ed750cd6
+    sha256: b65e2ffa35bdbf8798cb75c23ffc3d05e484e48346ff7546844ba85217664504
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-{{ version }}.tar.xz
-    sha256: 1c1531dd8f2d480c89c57b08a930545a3375077391789762e40e490cdbbf03fd
+    sha256: 1446a4c2a92ff5d78d88e85a599f0038441d53333236f0c72d72f21a9c132497
     folder: plugins_base
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-{{ version }}.tar.xz
-    sha256: 7beacb5daba3c6751ebc1c85017d9b1d6de64e24798125932c73c8b1dbeb3bc9
+    sha256: 738e26aee41b7a62050e40b81adc017a110a7f32d1ec49fa6a0300846c44368d
     folder: plugins_good
 
 build:
@@ -77,7 +77,7 @@ outputs:
         - {{ pin_subpackage('gstreamer', exact=True) }}
         - glib {{ glib }}
         - zlib {{ zlib }}
-        - gstreamer-orc 0.4.42
+        - gstreamer-orc {{ gstreamer_orc }}
         - libpng {{ libpng }}              # [unix]
         - jpeg {{ jpeg }}                  # [unix]
         - libopus {{ libopus }}            # [unix]
@@ -139,9 +139,9 @@ outputs:
         - zlib {{ zlib }}
         - libpng {{ libpng }}
         - jpeg {{ jpeg }}
-        - gstreamer-orc 0.4.42
+        - gstreamer-orc {{ gstreamer_orc }}
         - lame {{ lame }}                        # [unix]
-        - mpg123 1.30.0                          # [unix]
+        - mpg123 {{ mpg123 }}                    # [unix]
         - bzip2 {{ bzip2 }}                      # [unix]
         # libxml2 and openssl for libgstadaptivedemux2 - on osx libsoup is required.
         - libxml2 {{ libxml2 }}                  # [unix]
