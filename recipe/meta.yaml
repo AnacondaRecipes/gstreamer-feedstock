@@ -44,7 +44,7 @@ outputs:
     test:
       commands:
         # Tests hang on CI on osx platform but passes locally
-        - gst-inspect-1.0 --version
+        - gst-inspect-1.0 --version  # [not osx]
         - gst-launch-1.0  --version
         - gst-stats-1.0 --version
         - gst-typefind-1.0 --version
