@@ -1,0 +1,9 @@
+anaconda_config_version: 1
+upstream_sources:
+  - webpage:
+      url: https://gstreamer.freedesktop.org/src/gstreamer/
+      regex: gstreamer-(.*)\.tar\.xz
+    packages:
+      - gst-plugins-base
+      - gst-plugins-good
+      - gstreamer
