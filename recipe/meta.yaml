@@ -16,7 +16,7 @@ source:
     folder: plugins_good
 
 build:
-  number: 1
+  number: 2
 
 outputs:
   - name: gstreamer
@@ -79,7 +79,7 @@ outputs:
         - zlib {{ zlib }}
         - gstreamer-orc {{ gstreamer_orc }}
         - libpng {{ libpng }}              # [unix]
-        - jpeg {{ jpeg }}                  # [unix]
+        - libjpeg-turbo {{ libjpeg_turbo }}  # [unix]
         - libopus {{ libopus }}            # [unix]
         - libvorbis {{ libvorbis }}        # [unix]
         - libogg {{ libogg }}              # [unix]
@@ -138,7 +138,7 @@ outputs:
         - glib {{ glib }}
         - zlib {{ zlib }}
         - libpng {{ libpng }}
-        - jpeg {{ jpeg }}
+        - libjpeg-turbo {{ libjpeg_turbo }}
         - gstreamer-orc {{ gstreamer_orc }}
         - lame {{ lame }}                        # [unix]
         - mpg123 {{ mpg123 }}                    # [unix]
