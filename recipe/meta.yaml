@@ -40,7 +40,6 @@ outputs:
         - gobject-introspection
       host:
         - gettext {{ gettext }}  # [osx]
-        - msys2-gettext {{ gettext }} # [win]
         - glib {{ glib }}
     test:
       commands:
@@ -90,7 +89,6 @@ outputs:
         - libegl-devel {{ libegl }}        # [linux]
         - xorg-libx11 {{ xorg_libx11 }}    # [linux]
         - xorg-libxext {{ xorg_libxext }}  # [linux]
-        - msys2-gettext {{ gettext }}      # [win]
         - gettext {{ gettext }}            # [osx]
       run:
         - {{ pin_subpackage('gstreamer', exact=True) }}
@@ -149,7 +147,6 @@ outputs:
         - libxml2 {{ libxml2 }}                  # [unix]
         - openssl {{ openssl }}                  # [unix]
         - gettext {{ gettext }}                  # [osx]
-        - msys2-gettext {{ gettext }}            # [win]
         - xorg-libx11 {{ xorg_libx11 }}          # [linux]
         - xorg-libxdamage {{ xorg_libxdamage }}  # [linux]
         - xorg-libxext {{ xorg_libxext }}        # [linux]
