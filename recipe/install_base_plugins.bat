@@ -18,7 +18,8 @@ cd plugins_base
 meson setup builddir ^
 --wrap-mode=nofallback ^
 --buildtype=release ^
---prefix=%LIBRARY_PREFIX_M% --backend=ninja ^
+--prefix=%LIBRARY_PREFIX_M% ^
+--backend=ninja ^
 -Dexamples=disabled ^
 -Dintrospection=enabled ^
 -Dtests=disabled ^

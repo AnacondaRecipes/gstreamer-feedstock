@@ -18,7 +18,8 @@ cd plugins_good
 %BUILD_PREFIX%\Scripts\meson.exe setup builddir ^
 --wrap-mode=nofallback ^
 --buildtype=release ^
---prefix=%LIBRARY_PREFIX_M% --backend=ninja ^
+--prefix=%LIBRARY_PREFIX_M% ^
+--backend=ninja ^
 -Dexamples=disabled ^
 -Dtests=disabled ^
 -Dpackage-origin=https://github.com/AnacondaRecipes/gstreamer-feedstock
