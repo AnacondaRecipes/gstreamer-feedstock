@@ -17,7 +17,8 @@ set "LDFLAGS=%LDFLAGS% %LIBRARY_LIB%\intl.lib"
 
 meson builddir --wrap-mode=nofallback ^
  --buildtype=release ^
- --prefix=%LIBRARY_PREFIX_M% --backend=ninja ^
+ --prefix=%LIBRARY_PREFIX_M% ^
+ --backend=ninja ^
  -Dexamples=disabled ^
  -Dintrospection=enabled ^
  -Dnls=disabled ^
