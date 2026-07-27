@@ -7,12 +7,6 @@ set "PKG_CONFIG_PATH=%LIBRARY_LIB%\pkgconfig;%LIBRARY_PREFIX%\share\pkgconfig;%B
 :: get mixed path (forward slash) form of prefix so host prefix replacement works
 set "LIBRARY_PREFIX_M=%LIBRARY_PREFIX:\=/%"
 
-:: Same gettext/intl linkage issue as gstreamer core: GLib is built with
-:: gettext support even though this module's own nls option is disabled,
-:: so any TU using <glib/gi18n.h> (here: tools/gst-play.c) still needs
-:: intl.lib at link time.
-set "LDFLAGS=%LDFLAGS% %LIBRARY_LIB%\intl.lib"
-
 cd plugins_good
 
 %BUILD_PREFIX%\Scripts\meson.exe setup builddir ^
