@@ -3,7 +3,7 @@ upstream_sources:
   - webpage:
       url: https://gstreamer.freedesktop.org/src/gstreamer/
       regex: gstreamer-([\d.]+)\.tar\.xz
-      exclude_regex: ^\d+\.\d*[13579]\.
+      exclude_regex: ^\d+\.\d*[13579]\..*
     packages:
       - gst-plugins-base
       - gst-plugins-good
