@@ -7,7 +7,14 @@ set "PKG_CONFIG_PATH=%LIBRARY_LIB%\pkgconfig;%LIBRARY_PREFIX%\share\pkgconfig;%B
 :: get mixed path (forward slash) form of prefix so host prefix replacement works
 set "LIBRARY_PREFIX_M=%LIBRARY_PREFIX:\=/%"
 
-meson builddir --wrap-mode=nofallback --buildtype=release --prefix=%LIBRARY_PREFIX_M% --backend=ninja -Dexamples=disabled -Dintrospection=enabled -Dtests=disabled -Dpackage-origin=https://github.com/AnacondaRecipes/gstreamer-feedstock
+meson builddir --wrap-mode=nofallback ^
+ --buildtype=release ^
+ --prefix=%LIBRARY_PREFIX_M% ^
+ --backend=ninja ^
+ -Dexamples=disabled ^
+ -Dintrospection=enabled ^
+ -Dtests=disabled ^
+ -Dpackage-origin=https://github.com/AnacondaRecipes/gstreamer-feedstock
 if errorlevel 1 exit 1
 
 ninja -v -C builddir -j %CPU_COUNT%
