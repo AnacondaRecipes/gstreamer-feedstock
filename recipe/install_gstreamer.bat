@@ -13,7 +13,6 @@ meson builddir --wrap-mode=nofallback ^
  --backend=ninja ^
  -Dexamples=disabled ^
  -Dintrospection=enabled ^
- -Dnls=disabled ^
  -Dtests=disabled ^
  -Dpackage-origin=https://github.com/AnacondaRecipes/gstreamer-feedstock
 if errorlevel 1 exit 1
