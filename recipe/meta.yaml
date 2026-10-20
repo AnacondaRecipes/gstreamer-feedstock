@@ -1,4 +1,4 @@
-{% set version = "1.28.4" %}
+{% set version = "1.28.8" %}
 {% set posix = 'msys2-' if win else '' %}
 
 package:
@@ -7,16 +7,16 @@ package:
 
 source:
   - url: https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-{{ version }}.tar.xz
-    sha256: f5adc7e8f448c10260b3b25aa101c9d540674c8d9a54c2b77a86d04f2b3b50dd
+    sha256: baa8e86985ad6417cc0ad6e7b79ff2884c6779c8b1c7a6240e7121822c86e524
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-{{ version }}.tar.xz
-    sha256: a898afd5766172b0049e6781558e0689098bf87b9d82b846c652e571c01d60d8
+    sha256: ade70e3381fcbb024f1f20aa9ede9b5654aeed39d5bd70b1a98f53015e501117
     folder: plugins_base
   - url: https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-{{ version }}.tar.xz
-    sha256: c825ea737c59cea0e4a0c41da2388045ff5dd32d162220ac93a7a82ee4a04e61
+    sha256: a7670ed900d3d03be744d25c1873b239896e9a82ce6d17f8febc6fffbaee9521
     folder: plugins_good
 
 build:
-  number: 1
+  number: 0
 
 outputs:
   - name: gstreamer
@@ -53,7 +53,8 @@ outputs:
     about:
       summary: Library for constructing graphs of media-handling components
       description:
-      doc_source_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/subprojects/gstreamer/docs
+      doc_url: https://gstreamer.freedesktop.org/documentation/
+      dev_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/subprojects/gstreamer
 
   - name: gst-plugins-base
     script: install_base_plugins.sh  # [unix]
@@ -116,7 +117,8 @@ outputs:
         GStreamer Base Plug-ins is a well-groomed and well-maintained collection of
         GStreamer plug-ins and elements, spanning the range of possible types of
         elements one would want to write for GStreamer.
-      doc_source_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/subprojects/gst-plugins-base/docs
+      doc_url: https://gstreamer.freedesktop.org/documentation/
+      dev_url: https://cgit.freedesktop.org/gstreamer/gstreamer/tree/subprojects/gstreamer
   - name: gst-plugins-good
     script: install_good_plugins.sh  # [unix]
     script: install_good_plugins.bat  # [win]
